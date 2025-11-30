@@ -16,6 +16,23 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Daily AI World",
   description: "Your daily dose of AI Business, Design, and Future trends.",
+  icons: {
+    icon: [
+      { url: "/siteicon.png" },
+      { url: "/siteicon.png", sizes: "32x32", type: "image/png" },
+      { url: "/siteicon.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [
+      { url: "/siteicon.png" },
+      { url: "/siteicon.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      {
+        rel: "apple-touch-icon-precomposed",
+        url: "/siteicon.png",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
