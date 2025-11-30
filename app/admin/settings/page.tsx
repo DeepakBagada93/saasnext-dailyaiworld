@@ -26,8 +26,15 @@ export default function SettingsPage() {
     }, [router, supabase]);
 
     const handleLogout = async () => {
-        await supabase.auth.signOut();
-        router.push("/admin/login");
+        try {
+            await supabase.auth.signOut();
+            // Use window.location for a hard redirect to ensure session is cleared
+            window.location.href = "/admin/login";
+        } catch (error) {
+            console.error("Logout error:", error);
+            // Force redirect even if there's an error
+            window.location.href = "/admin/login";
+        }
     };
 
     if (loading) {
