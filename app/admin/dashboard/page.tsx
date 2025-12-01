@@ -7,11 +7,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { MotivationalCard } from "@/components/admin/MotivationalCard";
-import { FileText, Settings, TrendingUp } from "lucide-react";
+import { FileText, Settings, TrendingUp, Menu, X } from "lucide-react";
 
 export default function DashboardPage() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const router = useRouter();
     const supabase = createClient();
 
@@ -86,18 +87,57 @@ export default function DashboardPage() {
         <div className="min-h-screen bg-background font-sans">
             <nav className="border-b border-border bg-card">
                 <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-                    <h1 className="text-xl font-bold">Admin Dashboard</h1>
-                    <div className="flex items-center gap-4">
+                    <h1 className="text-lg sm:text-xl font-bold">Admin Dashboard</h1>
+
+                    {/* Desktop Navigation */}
+                    <div className="hidden md:flex items-center gap-4">
                         <Link href="/admin/settings" className="text-sm hover:text-primary transition-colors flex items-center gap-1">
                             <Settings className="w-4 h-4" />
-                            Settings
+                            <span>Settings</span>
                         </Link>
                         <Link href="/" className="text-sm hover:underline">View Site</Link>
                         <button onClick={handleLogout} className="text-sm text-destructive hover:underline">
                             Logout
                         </button>
                     </div>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        className="md:hidden p-2 hover:bg-muted rounded-md"
+                    >
+                        {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                    </button>
                 </div>
+
+                {/* Mobile Navigation */}
+                {mobileMenuOpen && (
+                    <div className="md:hidden border-t border-border bg-card">
+                        <div className="container mx-auto px-4 py-4 space-y-3">
+                            <Link
+                                href="/admin/settings"
+                                className="flex items-center gap-2 text-sm hover:text-primary transition-colors py-2"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                <Settings className="w-4 h-4" />
+                                <span>Settings</span>
+                            </Link>
+                            <Link
+                                href="/"
+                                className="block text-sm hover:underline py-2"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                View Site
+                            </Link>
+                            <button
+                                onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                                className="text-sm text-destructive hover:underline py-2 w-full text-left"
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                )}
             </nav>
 
             <main className="container mx-auto px-4 py-8">
@@ -145,72 +185,121 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Posts Table */}
-                <div className="flex justify-between items-center mb-8">
-                    <h2 className="text-2xl font-bold">Recent Posts</h2>
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                    <h2 className="text-xl sm:text-2xl font-bold">Recent Posts</h2>
                     <Link
                         href="/admin/editor"
-                        className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                        className="w-full sm:w-auto px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-center"
                     >
-                        Create New Post
+                        <span className="hidden sm:inline">Create New Post</span>
+                        <span className="sm:hidden">+ New Post</span>
                     </Link>
                 </div>
 
-                <div className="bg-card border border-border rounded-xl overflow-hidden">
-                    <table className="w-full text-left">
-                        <thead className="bg-muted">
-                            <tr>
-                                <th className="p-4 font-medium">Title</th>
-                                <th className="p-4 font-medium">Category</th>
-                                <th className="p-4 font-medium">Status</th>
-                                <th className="p-4 font-medium">Date</th>
-                                <th className="p-4 font-medium text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {posts.map((post) => (
-                                <tr key={post.id} className="border-t border-border hover:bg-muted/50 transition-colors">
-                                    <td className="p-4 font-medium">{post.title}</td>
-                                    <td className="p-4 text-muted-foreground">{post.category}</td>
-                                    <td className="p-4">
-                                        <span
-                                            className={cn(
-                                                "px-2 py-1 rounded-full text-xs font-medium",
-                                                post.is_published
-                                                    ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                                                    : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
-                                            )}
-                                        >
-                                            {post.is_published ? "Published" : "Draft"}
-                                        </span>
-                                    </td>
-                                    <td className="p-4 text-muted-foreground">
-                                        {new Date(post.created_at).toLocaleDateString()}
-                                    </td>
-                                    <td className="p-4 text-right space-x-2">
-                                        <Link
-                                            href={`/admin/editor?id=${post.id}`}
-                                            className="text-sm font-medium hover:underline"
-                                        >
-                                            Edit
-                                        </Link>
-                                        <button
-                                            onClick={() => handleDelete(post.id)}
-                                            className="text-sm font-medium text-destructive hover:underline"
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                            {posts.length === 0 && (
+                {/* Desktop Table View */}
+                <div className="hidden md:block bg-card border border-border rounded-xl overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead className="bg-muted">
                                 <tr>
-                                    <td colSpan={5} className="p-8 text-center text-muted-foreground">
-                                        No posts found. Create one to get started.
-                                    </td>
+                                    <th className="p-4 font-medium">Title</th>
+                                    <th className="p-4 font-medium">Category</th>
+                                    <th className="p-4 font-medium">Status</th>
+                                    <th className="p-4 font-medium">Date</th>
+                                    <th className="p-4 font-medium text-right">Actions</th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {posts.map((post) => (
+                                    <tr key={post.id} className="border-t border-border hover:bg-muted/50 transition-colors">
+                                        <td className="p-4 font-medium">{post.title}</td>
+                                        <td className="p-4 text-muted-foreground">{post.category}</td>
+                                        <td className="p-4">
+                                            <span
+                                                className={cn(
+                                                    "px-2 py-1 rounded-full text-xs font-medium",
+                                                    post.is_published
+                                                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                                                        : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                                                )}
+                                            >
+                                                {post.is_published ? "Published" : "Draft"}
+                                            </span>
+                                        </td>
+                                        <td className="p-4 text-muted-foreground">
+                                            {new Date(post.created_at).toLocaleDateString()}
+                                        </td>
+                                        <td className="p-4 text-right space-x-2">
+                                            <Link
+                                                href={`/admin/editor?id=${post.id}`}
+                                                className="text-sm font-medium hover:underline"
+                                            >
+                                                Edit
+                                            </Link>
+                                            <button
+                                                onClick={() => handleDelete(post.id)}
+                                                className="text-sm font-medium text-destructive hover:underline"
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                                {posts.length === 0 && (
+                                    <tr>
+                                        <td colSpan={5} className="p-8 text-center text-muted-foreground">
+                                            No posts found. Create one to get started.
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {/* Mobile Card View */}
+                <div className="md:hidden space-y-4">
+                    {posts.map((post) => (
+                        <div key={post.id} className="bg-card border border-border rounded-xl p-4 space-y-3">
+                            <div className="flex items-start justify-between gap-2">
+                                <h3 className="font-medium flex-1">{post.title}</h3>
+                                <span
+                                    className={cn(
+                                        "px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap",
+                                        post.is_published
+                                            ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                                            : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                                    )}
+                                >
+                                    {post.is_published ? "Published" : "Draft"}
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                <span>{post.category}</span>
+                                <span>•</span>
+                                <span>{new Date(post.created_at).toLocaleDateString()}</span>
+                            </div>
+                            <div className="flex items-center gap-2 pt-2">
+                                <Link
+                                    href={`/admin/editor?id=${post.id}`}
+                                    className="flex-1 px-3 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-center"
+                                >
+                                    Edit
+                                </Link>
+                                <button
+                                    onClick={() => handleDelete(post.id)}
+                                    className="flex-1 px-3 py-2 text-sm font-medium bg-destructive/10 text-destructive rounded-md hover:bg-destructive/20 transition-colors"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                    {posts.length === 0 && (
+                        <div className="bg-card border border-border rounded-xl p-8 text-center text-muted-foreground">
+                            No posts found. Create one to get started.
+                        </div>
+                    )}
                 </div>
             </main>
         </div>

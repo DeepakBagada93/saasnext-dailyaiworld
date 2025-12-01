@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Settings, Menu, X } from "lucide-react";
 
 export default function SettingsPage() {
     const [loading, setLoading] = useState(true);
     const [userEmail, setUserEmail] = useState("");
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const router = useRouter();
     const supabase = createClient();
 
@@ -45,19 +47,57 @@ export default function SettingsPage() {
         <div className="min-h-screen bg-background font-sans">
             <nav className="border-b border-border bg-card">
                 <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-                    <h1 className="text-xl font-bold">Admin Settings</h1>
-                    <div className="flex items-center gap-4">
+                    <h1 className="text-lg sm:text-xl font-bold">Admin Settings</h1>
+
+                    {/* Desktop Navigation */}
+                    <div className="hidden md:flex items-center gap-4">
                         <Link href="/admin/dashboard" className="text-sm hover:underline">Dashboard</Link>
                         <Link href="/" className="text-sm hover:underline">View Site</Link>
                         <button onClick={handleLogout} className="text-sm text-destructive hover:underline">
                             Logout
                         </button>
                     </div>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        className="md:hidden p-2 hover:bg-muted rounded-md"
+                    >
+                        {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                    </button>
                 </div>
+
+                {/* Mobile Navigation */}
+                {mobileMenuOpen && (
+                    <div className="md:hidden border-t border-border bg-card">
+                        <div className="container mx-auto px-4 py-4 space-y-3">
+                            <Link
+                                href="/admin/dashboard"
+                                className="block text-sm hover:underline py-2"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Dashboard
+                            </Link>
+                            <Link
+                                href="/"
+                                className="block text-sm hover:underline py-2"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                View Site
+                            </Link>
+                            <button
+                                onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                                className="text-sm text-destructive hover:underline py-2 w-full text-left"
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                )}
             </nav>
 
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <h2 className="text-2xl font-bold mb-8">Settings</h2>
+            <main className="container mx-auto px-4 py-6 sm:py-8 max-w-4xl">
+                <h2 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8">Settings</h2>
 
                 <div className="space-y-6">
                     {/* Account Settings */}
@@ -119,7 +159,7 @@ export default function SettingsPage() {
 
                     {/* Save Button */}
                     <div className="flex justify-end">
-                        <button className="px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
+                        <button className="w-full sm:w-auto px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
                             Save Changes
                         </button>
                     </div>
