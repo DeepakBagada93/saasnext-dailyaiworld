@@ -14,8 +14,48 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Daily AI World",
-  description: "Your daily dose of AI Business, Design, and Future trends.",
+  metadataBase: new URL("https://dailyaiworld.com"),
+  title: {
+    default: "Daily AI World | AI Business, Design & Future Trends",
+    template: "%s | Daily AI World",
+  },
+  description:
+    "Your daily source for Artificial Intelligence, Business, Design, and Future Trends. Stay ahead with curated insights and in-depth analysis.",
+  keywords: [
+    "Artificial Intelligence",
+    "AI Business",
+    "Future Trends",
+    "AI Design",
+    "Tech News",
+    "Machine Learning",
+  ],
+  authors: [{ name: "Daily AI World Team" }],
+  creator: "Daily AI World",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://dailyaiworld.com",
+    title: "Daily AI World | AI Business, Design & Future Trends",
+    description:
+      "Your daily source for Artificial Intelligence, Business, Design, and Future Trends. Stay ahead with curated insights and in-depth analysis.",
+    siteName: "Daily AI World",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Daily AI World",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Daily AI World | AI Business, Design & Future Trends",
+    description:
+      "Your daily source for Artificial Intelligence, Business, Design, and Future Trends. Stay ahead with curated insights and in-depth analysis.",
+    images: ["/opengraph-image"],
+    creator: "@dailyaiworld",
+  },
   icons: {
     icon: [
       { url: "/siteicon.png" },
@@ -32,6 +72,17 @@ export const metadata: Metadata = {
         url: "/siteicon.png",
       },
     ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

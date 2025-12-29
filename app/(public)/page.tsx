@@ -26,7 +26,9 @@ export default async function Home() {
   return (
     <>
       <AnimatedHero />
-      <BentoGrid posts={posts} />
+      <section id="latest-posts" className="scroll-mt-20">
+        <BentoGrid posts={posts} />
+      </section>
     </>
   );
 }

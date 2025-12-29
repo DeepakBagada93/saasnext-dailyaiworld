@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, PlusCircle, Settings, LogOut, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { LayoutDashboard, PlusCircle, Settings, LogOut, Menu, X, Globe } from "lucide-react";
+import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase";
 
 const sidebarLinks = [
@@ -27,9 +27,13 @@ const sidebarLinks = [
 
 export function AdminSidebar() {
     const pathname = usePathname();
-    const router = useRouter();
     const supabase = createClient();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    // Close mobile menu when route changes
+    useEffect(() => {
+        setMobileMenuOpen(false);
+    }, [pathname]);
 
     const handleLogout = async () => {
         try {
@@ -43,13 +47,21 @@ export function AdminSidebar() {
 
     return (
         <>
-            {/* Mobile Menu Button */}
-            <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-card border border-border rounded-md shadow-lg hover:bg-accent"
-            >
-                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            {/* Mobile Header */}
+            <div className="lg:hidden fixed top-0 left-0 right-0 h-16 border-b border-border bg-background/80 backdrop-blur-sm z-50 px-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        className="p-2 -ml-2 hover:bg-accent rounded-md"
+                    >
+                        {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
+                    <span className="font-bold">Daily AI World</span>
+                </div>
+                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-medium text-primary">
+                    AD
+                </div>
+            </div>
 
             {/* Mobile Overlay */}
             {mobileMenuOpen && (
@@ -62,23 +74,18 @@ export function AdminSidebar() {
             {/* Sidebar */}
             <aside
                 className={cn(
-                    "w-64 border-r border-border bg-background min-h-screen flex flex-col transition-transform duration-300 ease-in-out",
-                    "lg:translate-x-0 lg:static lg:z-auto",
-                    "fixed inset-y-0 left-0 z-40",
+                    "fixed lg:static inset-y-0 left-0 z-50 w-64 bg-card border-r border-border flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 pt-16 lg:pt-0",
                     mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
                 )}
             >
-                <div className="h-16 flex items-center px-6 border-b border-border">
-                    <Link
-                        href="/"
-                        className="text-lg font-bold tracking-tight"
-                        onClick={() => setMobileMenuOpen(false)}
-                    >
+                <div className="hidden lg:flex h-16 items-center px-6 border-b border-border">
+                    <Link href="/" className="text-lg font-bold tracking-tight flex items-center gap-2">
+                        <Globe className="w-5 h-5 text-primary" />
                         Daily AI World
                     </Link>
                 </div>
 
-                <div className="flex-1 py-6 px-4 space-y-1">
+                <div className="flex-1 py-6 px-4 space-y-1 overflow-y-auto">
                     {sidebarLinks.map((link) => {
                         const Icon = link.icon;
                         const isActive = pathname === link.href;
@@ -87,7 +94,6 @@ export function AdminSidebar() {
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                onClick={() => setMobileMenuOpen(false)}
                                 className={cn(
                                     "flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors",
                                     isActive

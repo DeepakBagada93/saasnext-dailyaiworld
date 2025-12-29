@@ -12,7 +12,6 @@ import { FileText, Settings, TrendingUp, Menu, X } from "lucide-react";
 export default function DashboardPage() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const router = useRouter();
     const supabase = createClient();
 
@@ -84,60 +83,19 @@ export default function DashboardPage() {
     const monthlyTarget = 50;
 
     return (
-        <div className="min-h-screen bg-background font-sans">
-            <nav className="border-b border-border bg-card">
+        <div className="min-h-screen bg-background font-sans pt-16 lg:pt-0">
+            <nav className="hidden lg:block border-b border-border bg-card">
                 <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                     <h1 className="text-lg sm:text-xl font-bold">Admin Dashboard</h1>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center gap-4">
-                        <Link href="/admin/settings" className="text-sm hover:text-primary transition-colors flex items-center gap-1">
-                            <Settings className="w-4 h-4" />
-                            <span>Settings</span>
-                        </Link>
+                    <div className="flex items-center gap-4">
                         <Link href="/" className="text-sm hover:underline">View Site</Link>
-                        <button onClick={handleLogout} className="text-sm text-destructive hover:underline">
-                            Logout
-                        </button>
-                    </div>
-
-                    {/* Mobile Menu Button */}
-                    <button
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="md:hidden p-2 hover:bg-muted rounded-md"
-                    >
-                        {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                    </button>
-                </div>
-
-                {/* Mobile Navigation */}
-                {mobileMenuOpen && (
-                    <div className="md:hidden border-t border-border bg-card">
-                        <div className="container mx-auto px-4 py-4 space-y-3">
-                            <Link
-                                href="/admin/settings"
-                                className="flex items-center gap-2 text-sm hover:text-primary transition-colors py-2"
-                                onClick={() => setMobileMenuOpen(false)}
-                            >
-                                <Settings className="w-4 h-4" />
-                                <span>Settings</span>
-                            </Link>
-                            <Link
-                                href="/"
-                                className="block text-sm hover:underline py-2"
-                                onClick={() => setMobileMenuOpen(false)}
-                            >
-                                View Site
-                            </Link>
-                            <button
-                                onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
-                                className="text-sm text-destructive hover:underline py-2 w-full text-left"
-                            >
-                                Logout
-                            </button>
+                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-medium text-primary">
+                            AD
                         </div>
                     </div>
-                )}
+                </div>
             </nav>
 
             <main className="container mx-auto px-4 py-8">
