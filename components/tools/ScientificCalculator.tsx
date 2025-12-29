@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ToolWrapper } from "./ToolWrapper";
 import { Delete, Divide, Equal, Minus, Plus, RotateCcw, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function ScientificCalculator() {
     const [display, setDisplay] = useState("0");
