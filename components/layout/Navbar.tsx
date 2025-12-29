@@ -109,12 +109,15 @@ export function Navbar() {
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                                     transition={{ duration: 0.2 }}
-                                    className="absolute top-full right-0 w-96 pt-2"
+                                    className="absolute top-full right-0 w-[800px] pt-2"
                                 >
-                                    <div className="glass-card rounded-xl p-4 shadow-2xl border border-white/10 bg-black/80 backdrop-blur-xl">
-                                        <div className="grid grid-cols-1 gap-4">
+                                    <div className="glass-card rounded-xl p-6 shadow-2xl border border-white/10 bg-black/90 backdrop-blur-xl">
+                                        <div className="grid grid-cols-4 gap-8">
                                             <div>
-                                                <h4 className="text-xs font-semibold text-orange-500 mb-2 uppercase tracking-wider">Basic</h4>
+                                                <h4 className="text-xs font-semibold text-orange-500 mb-3 uppercase tracking-wider flex items-center gap-2">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                                                    Basic
+                                                </h4>
                                                 <div className="grid gap-1">
                                                     {toolsLinks.basic.map((tool) => (
                                                         <Link
@@ -127,9 +130,11 @@ export function Navbar() {
                                                     ))}
                                                 </div>
                                             </div>
-                                            <div className="border-t border-white/10"></div>
                                             <div>
-                                                <h4 className="text-xs font-semibold text-orange-500 mb-2 uppercase tracking-wider">Finance</h4>
+                                                <h4 className="text-xs font-semibold text-orange-500 mb-3 uppercase tracking-wider flex items-center gap-2">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                                                    Finance
+                                                </h4>
                                                 <div className="grid gap-1">
                                                     {toolsLinks.finance.map((tool) => (
                                                         <Link
@@ -142,9 +147,11 @@ export function Navbar() {
                                                     ))}
                                                 </div>
                                             </div>
-                                            <div className="border-t border-white/10"></div>
                                             <div>
-                                                <h4 className="text-xs font-semibold text-orange-500 mb-2 uppercase tracking-wider">Health</h4>
+                                                <h4 className="text-xs font-semibold text-orange-500 mb-3 uppercase tracking-wider flex items-center gap-2">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                                                    Health
+                                                </h4>
                                                 <div className="grid gap-1">
                                                     {toolsLinks.health.map((tool) => (
                                                         <Link
@@ -157,9 +164,11 @@ export function Navbar() {
                                                     ))}
                                                 </div>
                                             </div>
-                                            <div className="border-t border-white/10"></div>
                                             <div>
-                                                <h4 className="text-xs font-semibold text-orange-500 mb-2 uppercase tracking-wider">Developer</h4>
+                                                <h4 className="text-xs font-semibold text-orange-500 mb-3 uppercase tracking-wider flex items-center gap-2">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                                                    Developer
+                                                </h4>
                                                 <div className="grid gap-1">
                                                     {toolsLinks.developer.map((tool) => (
                                                         <Link
