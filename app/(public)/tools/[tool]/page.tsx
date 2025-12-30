@@ -129,8 +129,9 @@ const toolsConfig = {
     },
 };
 
-export async function generateMetadata({ params }: { params: { tool: string } }): Promise<Metadata> {
-    const config = toolsConfig[params.tool as keyof typeof toolsConfig];
+export async function generateMetadata({ params }: { params: Promise<{ tool: string }> }): Promise<Metadata> {
+    const resolvedParams = await params;
+    const config = toolsConfig[resolvedParams.tool as keyof typeof toolsConfig];
 
     if (!config) {
         return {
@@ -154,8 +155,15 @@ export async function generateMetadata({ params }: { params: { tool: string } })
     };
 }
 
-export default function ToolPage({ params }: { params: { tool: string } }) {
-    const config = toolsConfig[params.tool as keyof typeof toolsConfig];
+export default async function ToolPage({ params }: { params: Promise<{ tool: string }> }) {
+    const resolvedParams = await params;
+    console.log("DEBUG: ToolPage params:", resolvedParams);
+    console.log("DEBUG: Available keys:", Object.keys(toolsConfig));
+    console.log("DEBUG: Checking key:", resolvedParams.tool);
+    console.log("DEBUG: Match found:", Object.keys(toolsConfig).includes(resolvedParams.tool));
+
+    const config = toolsConfig[resolvedParams.tool as keyof typeof toolsConfig];
+    console.log("DEBUG: ToolPage config found:", !!config, "for tool:", resolvedParams.tool);
 
     if (!config) {
         return (
