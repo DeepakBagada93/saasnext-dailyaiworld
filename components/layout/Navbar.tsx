@@ -59,6 +59,13 @@ export function Navbar() {
             { name: "Border Radius", href: "/tools/border-radius-generator" },
             { name: "Favicon Generator", href: "/tools/favicon-generator" },
         ],
+        image: [
+            { name: "Image Resizer", href: "/tools/image-resizer" },
+            { name: "Image Compressor", href: "/tools/image-compressor" },
+            { name: "Image Converter", href: "/tools/image-converter" },
+            { name: "Image Cropper", href: "/tools/image-cropper" },
+            { name: "Image Filters", href: "/tools/image-filters" },
+        ],
     };
 
     return (
@@ -109,10 +116,10 @@ export function Navbar() {
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                                     transition={{ duration: 0.2 }}
-                                    className="absolute top-full right-0 w-[800px] pt-2"
+                                    className="absolute top-full right-0 w-[1000px] pt-2"
                                 >
                                     <div className="glass-card rounded-xl p-6 shadow-2xl border border-white/10 bg-black/90 backdrop-blur-xl">
-                                        <div className="grid grid-cols-4 gap-8">
+                                        <div className="grid grid-cols-5 gap-6">
                                             <div>
                                                 <h4 className="text-xs font-semibold text-orange-500 mb-3 uppercase tracking-wider flex items-center gap-2">
                                                     <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
@@ -171,6 +178,23 @@ export function Navbar() {
                                                 </h4>
                                                 <div className="grid gap-1">
                                                     {toolsLinks.developer.map((tool) => (
+                                                        <Link
+                                                            key={tool.href}
+                                                            href={tool.href}
+                                                            className="block px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
+                                                        >
+                                                            {tool.name}
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-xs font-semibold text-orange-500 mb-3 uppercase tracking-wider flex items-center gap-2">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                                                    Image
+                                                </h4>
+                                                <div className="grid gap-1">
+                                                    {toolsLinks.image.map((tool) => (
                                                         <Link
                                                             key={tool.href}
                                                             href={tool.href}
@@ -273,6 +297,21 @@ export function Navbar() {
                                         <div className="text-xs font-semibold text-orange-500 mb-2 uppercase tracking-wider px-2">Developer</div>
                                         <div className="grid gap-2">
                                             {toolsLinks.developer.map((tool) => (
+                                                <Link
+                                                    key={tool.href}
+                                                    href={tool.href}
+                                                    className="text-sm text-white/70 hover:text-white py-1 px-2"
+                                                    onClick={() => setIsOpen(false)}
+                                                >
+                                                    {tool.name}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="text-xs font-semibold text-orange-500 mb-2 uppercase tracking-wider px-2">Image</div>
+                                        <div className="grid gap-2">
+                                            {toolsLinks.image.map((tool) => (
                                                 <Link
                                                     key={tool.href}
                                                     href={tool.href}

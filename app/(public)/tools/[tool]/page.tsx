@@ -20,8 +20,38 @@ import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { BoxShadowGenerator } from "@/components/tools/BoxShadowGenerator";
 import { BorderRadiusGenerator } from "@/components/tools/BorderRadiusGenerator";
 import { FaviconGenerator } from "@/components/tools/FaviconGenerator";
+import { ImageResizer } from "@/components/tools/ImageResizer";
+import { ImageCompressor } from "@/components/tools/ImageCompressor";
+import { ImageConverter } from "@/components/tools/ImageConverter";
+import { ImageCropper } from "@/components/tools/ImageCropper";
+import { ImageFilters } from "@/components/tools/ImageFilters";
 
 const toolsConfig = {
+    "image-resizer": {
+        title: "Image Resizer - Resize Images Online | Daily AI World",
+        description: "Resize your images to exact dimensions or percentage. Free online image resizer tool.",
+        component: ImageResizer,
+    },
+    "image-compressor": {
+        title: "Image Compressor - Reduce Image Size | Daily AI World",
+        description: "Compress images to reduce file size without losing quality. Free online image compressor.",
+        component: ImageCompressor,
+    },
+    "image-converter": {
+        title: "Image Converter - PNG to JPG, WEBP | Daily AI World",
+        description: "Convert images between PNG, JPG, and WEBP formats. Free online image converter.",
+        component: ImageConverter,
+    },
+    "image-cropper": {
+        title: "Image Cropper - Crop & Rotate Images | Daily AI World",
+        description: "Crop and rotate images online. Preset aspect ratios for social media. Free image cropper.",
+        component: ImageCropper,
+    },
+    "image-filters": {
+        title: "Image Filters - Apply Effects Online | Daily AI World",
+        description: "Apply filters and effects to your images. Adjust brightness, contrast, and more.",
+        component: ImageFilters,
+    },
     "scientific-calculator": {
         title: "Scientific Calculator - Daily AI World",
         description: "Free online scientific calculator with sin, cos, tan, log, and advanced mathematical functions.",
@@ -157,13 +187,7 @@ export async function generateMetadata({ params }: { params: Promise<{ tool: str
 
 export default async function ToolPage({ params }: { params: Promise<{ tool: string }> }) {
     const resolvedParams = await params;
-    console.log("DEBUG: ToolPage params:", resolvedParams);
-    console.log("DEBUG: Available keys:", Object.keys(toolsConfig));
-    console.log("DEBUG: Checking key:", resolvedParams.tool);
-    console.log("DEBUG: Match found:", Object.keys(toolsConfig).includes(resolvedParams.tool));
-
     const config = toolsConfig[resolvedParams.tool as keyof typeof toolsConfig];
-    console.log("DEBUG: ToolPage config found:", !!config, "for tool:", resolvedParams.tool);
 
     if (!config) {
         return (
