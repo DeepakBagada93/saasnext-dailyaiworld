@@ -36,6 +36,7 @@ export function MarkdownEditor({ value, onChange, className }: MarkdownEditorPro
 
         const start = textarea.selectionStart;
         const end = textarea.selectionEnd;
+        const scrollTop = textarea.scrollTop; // Capture scroll position
         const text = textarea.value;
         const before = text.substring(0, start);
         const selection = text.substring(start, end);
@@ -44,13 +45,14 @@ export function MarkdownEditor({ value, onChange, className }: MarkdownEditorPro
         const newText = `${before}${prefix}${selection}${suffix}${after}`;
         onChange(newText);
 
-        // Restore focus and selection
+        // Restore focus, selection, and scroll position
         setTimeout(() => {
             textarea.focus();
             textarea.setSelectionRange(
                 start + prefix.length,
                 end + prefix.length
             );
+            textarea.scrollTop = scrollTop; // Restore scroll position
         }, 0);
     };
 
