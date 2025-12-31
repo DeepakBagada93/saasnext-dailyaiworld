@@ -72,7 +72,7 @@ export function Navbar() {
         <nav
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent",
-                isScrolled ? "bg-black/60 backdrop-blur-xl border-white/10 shadow-lg" : "bg-transparent"
+                isScrolled ? "bg-black/95 backdrop-blur-xl border-white/10 shadow-lg" : "bg-transparent"
             )}
         >
             <div className="container mx-auto px-4 h-20 flex items-center justify-between">
@@ -118,7 +118,7 @@ export function Navbar() {
                                     transition={{ duration: 0.2 }}
                                     className="absolute top-full right-0 w-[1000px] pt-2"
                                 >
-                                    <div className="glass-card rounded-xl p-6 shadow-2xl border border-white/10 bg-black/90 backdrop-blur-xl">
+                                    <div className="glass-card rounded-xl p-6 shadow-2xl border border-white/10 bg-black/95 backdrop-blur-xl">
                                         <div className="grid grid-cols-5 gap-6">
                                             <div>
                                                 <h4 className="text-xs font-semibold text-orange-500 mb-3 uppercase tracking-wider flex items-center gap-2">
