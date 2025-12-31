@@ -233,7 +233,7 @@ export function Navbar() {
                         exit={{ opacity: 0, height: 0 }}
                         className="md:hidden border-t border-white/10 bg-black/95 backdrop-blur-xl overflow-hidden"
                     >
-                        <div className="container mx-auto px-4 py-6 flex flex-col gap-4">
+                        <div className="container mx-auto px-4 py-6 flex flex-col gap-4 max-h-[80vh] overflow-y-auto">
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.href}
@@ -245,84 +245,49 @@ export function Navbar() {
                                 </Link>
                             ))}
 
-
                             <div className="border-t border-white/10 pt-4 mt-2">
-                                <div className="space-y-4">
-                                    <div>
-                                        <div className="text-xs font-semibold text-orange-500 mb-2 uppercase tracking-wider px-2">Basic</div>
-                                        <div className="grid gap-2">
-                                            {toolsLinks.basic.map((tool) => (
-                                                <Link
-                                                    key={tool.href}
-                                                    href={tool.href}
-                                                    className="text-sm text-white/70 hover:text-white py-1 px-2"
-                                                    onClick={() => setIsOpen(false)}
-                                                >
-                                                    {tool.name}
-                                                </Link>
-                                            ))}
+                                <div className="space-y-2">
+                                    <div className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-2">Tools</div>
+                                    {Object.entries(toolsLinks).map(([category, tools]) => (
+                                        <div key={category} className="border border-white/5 rounded-lg overflow-hidden bg-white/5">
+                                            <button
+                                                onClick={() => setActiveDropdown(activeDropdown === category ? null : category)}
+                                                className="w-full flex items-center justify-between p-3 text-left text-sm font-medium text-white hover:bg-white/5 transition-colors"
+                                            >
+                                                <span className="capitalize flex items-center gap-2">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                                                    {category}
+                                                </span>
+                                                <ChevronDown
+                                                    size={16}
+                                                    className={cn("transition-transform duration-200", activeDropdown === category ? "rotate-180" : "")}
+                                                />
+                                            </button>
+                                            <AnimatePresence>
+                                                {activeDropdown === category && (
+                                                    <motion.div
+                                                        initial={{ height: 0 }}
+                                                        animate={{ height: "auto" }}
+                                                        exit={{ height: 0 }}
+                                                        className="overflow-hidden"
+                                                    >
+                                                        <div className="p-2 pt-0 grid gap-1">
+                                                            {tools.map((tool) => (
+                                                                <Link
+                                                                    key={tool.href}
+                                                                    href={tool.href}
+                                                                    className="block px-3 py-2 text-sm text-white/60 hover:text-white hover:bg-white/5 rounded-md transition-colors pl-6"
+                                                                    onClick={() => setIsOpen(false)}
+                                                                >
+                                                                    {tool.name}
+                                                                </Link>
+                                                            ))}
+                                                        </div>
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <div className="text-xs font-semibold text-orange-500 mb-2 uppercase tracking-wider px-2">Finance</div>
-                                        <div className="grid gap-2">
-                                            {toolsLinks.finance.map((tool) => (
-                                                <Link
-                                                    key={tool.href}
-                                                    href={tool.href}
-                                                    className="text-sm text-white/70 hover:text-white py-1 px-2"
-                                                    onClick={() => setIsOpen(false)}
-                                                >
-                                                    {tool.name}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="text-xs font-semibold text-orange-500 mb-2 uppercase tracking-wider px-2">Health</div>
-                                        <div className="grid gap-2">
-                                            {toolsLinks.health.map((tool) => (
-                                                <Link
-                                                    key={tool.href}
-                                                    href={tool.href}
-                                                    className="text-sm text-white/70 hover:text-white py-1 px-2"
-                                                    onClick={() => setIsOpen(false)}
-                                                >
-                                                    {tool.name}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="text-xs font-semibold text-orange-500 mb-2 uppercase tracking-wider px-2">Developer</div>
-                                        <div className="grid gap-2">
-                                            {toolsLinks.developer.map((tool) => (
-                                                <Link
-                                                    key={tool.href}
-                                                    href={tool.href}
-                                                    className="text-sm text-white/70 hover:text-white py-1 px-2"
-                                                    onClick={() => setIsOpen(false)}
-                                                >
-                                                    {tool.name}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="text-xs font-semibold text-orange-500 mb-2 uppercase tracking-wider px-2">Image</div>
-                                        <div className="grid gap-2">
-                                            {toolsLinks.image.map((tool) => (
-                                                <Link
-                                                    key={tool.href}
-                                                    href={tool.href}
-                                                    className="text-sm text-white/70 hover:text-white py-1 px-2"
-                                                    onClick={() => setIsOpen(false)}
-                                                >
-                                                    {tool.name}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
