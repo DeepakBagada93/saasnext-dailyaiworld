@@ -1,0 +1,159 @@
+import { ScientificCalculator } from "@/components/tools/ScientificCalculator";
+import { PercentageCalculator } from "@/components/tools/PercentageCalculator";
+import { AgeCalculator } from "@/components/tools/AgeCalculator";
+import { DateDifferenceCalculator } from "@/components/tools/DateDifferenceCalculator";
+import { UnitConverter } from "@/components/tools/UnitConverter";
+import { EMICalculator } from "@/components/tools/EMICalculator";
+import { SIPCalculator } from "@/components/tools/SIPCalculator";
+import { GSTCalculator } from "@/components/tools/GSTCalculator";
+import { CurrencyConverter } from "@/components/tools/CurrencyConverter";
+import { ProfitLossCalculator } from "@/components/tools/ProfitLossCalculator";
+import { BMRCalculator } from "@/components/tools/BMRCalculator";
+import { CalorieCalculator } from "@/components/tools/CalorieCalculator";
+import { IdealWeightCalculator } from "@/components/tools/IdealWeightCalculator";
+import { WaterIntakeCalculator } from "@/components/tools/WaterIntakeCalculator";
+import { GradientGenerator } from "@/components/tools/GradientGenerator";
+import { ColorPaletteGenerator } from "@/components/tools/ColorPaletteGenerator";
+import { ColorConverter } from "@/components/tools/ColorConverter";
+import { ContrastChecker } from "@/components/tools/ContrastChecker";
+import { BoxShadowGenerator } from "@/components/tools/BoxShadowGenerator";
+import { BorderRadiusGenerator } from "@/components/tools/BorderRadiusGenerator";
+import { FaviconGenerator } from "@/components/tools/FaviconGenerator";
+import { ImageResizer } from "@/components/tools/ImageResizer";
+import { ImageCompressor } from "@/components/tools/ImageCompressor";
+import { ImageConverter } from "@/components/tools/ImageConverter";
+import { ImageCropper } from "@/components/tools/ImageCropper";
+import { ImageFilters } from "@/components/tools/ImageFilters";
+
+export const toolsConfig = {
+    "scientific-calculator": {
+        title: "Scientific Calculator - Daily AI World",
+        description: "Free online scientific calculator with sin, cos, tan, log, and advanced mathematical functions.",
+        component: ScientificCalculator,
+    },
+    "percentage-calculator": {
+        title: "Percentage Calculator - Daily AI World",
+        description: "Calculate percentages, percentage increase, decrease, and more with our free online percentage calculator.",
+        component: PercentageCalculator,
+    },
+    "age-calculator": {
+        title: "Age Calculator - Calculate Your Exact Age | Daily AI World",
+        description: "Calculate your age in years, months, days, and more. Find out when your next birthday is with our free age calculator.",
+        component: AgeCalculator,
+    },
+    "date-difference-calculator": {
+        title: "Date Difference Calculator - Daily AI World",
+        description: "Calculate the difference between two dates in days, weeks, months, years, and more.",
+        component: DateDifferenceCalculator,
+    },
+    "unit-converter": {
+        title: "Unit Converter - Length, Weight, Temperature, Speed | Daily AI World",
+        description: "Convert between units of length, weight, temperature, and speed with our comprehensive unit converter.",
+        component: UnitConverter,
+    },
+    "emi-calculator": {
+        title: "EMI Calculator - Loan EMI Calculator | Daily AI World",
+        description: "Calculate your loan EMI (Equated Monthly Installment) with our free EMI calculator. Plan your loans effectively.",
+        component: EMICalculator,
+    },
+    "sip-calculator": {
+        title: "SIP Calculator - Mutual Fund SIP Returns Calculator | Daily AI World",
+        description: "Calculate your SIP (Systematic Investment Plan) returns and plan your investments with our free SIP calculator.",
+        component: SIPCalculator,
+    },
+    "gst-calculator": {
+        title: "GST Calculator - Calculate CGST & SGST | Daily AI World",
+        description: "Free online GST calculator for India. Calculate CGST, SGST, and total GST on your products and services.",
+        component: GSTCalculator,
+    },
+    "currency-converter": {
+        title: "Currency Converter - Convert Currencies Online | Daily AI World",
+        description: "Convert between different currencies with live exchange rates. Free online currency converter.",
+        component: CurrencyConverter,
+    },
+    "profit-loss-calculator": {
+        title: "Profit & Loss Calculator - Calculate P&L Percentage | Daily AI World",
+        description: "Calculate profit or loss percentage on your sales. Free online profit and loss calculator.",
+        component: ProfitLossCalculator,
+    },
+    "bmr-calculator": {
+        title: "BMR Calculator - Basal Metabolic Rate Calculator | Daily AI World",
+        description: "Calculate your BMR (Basal Metabolic Rate) and daily calorie needs. Free online BMR calculator with activity levels.",
+        component: BMRCalculator,
+    },
+    "calorie-calculator": {
+        title: "Calorie Calculator - Track Daily Calorie Intake | Daily AI World",
+        description: "Track your daily calorie intake from different foods. Free online calorie calculator.",
+        component: CalorieCalculator,
+    },
+    "ideal-weight-calculator": {
+        title: "Ideal Weight Calculator - Find Your Ideal Body Weight | Daily AI World",
+        description: "Calculate your ideal body weight using multiple formulas (Hamwi, Devine, Miller, Robinson). Free online calculator.",
+        component: IdealWeightCalculator,
+    },
+    "water-intake-calculator": {
+        title: "Water Intake Calculator - Daily Water Requirement | Daily AI World",
+        description: "Calculate your daily water intake requirement based on body weight, activity level, and climate.",
+        component: WaterIntakeCalculator,
+    },
+    "gradient-generator": {
+        title: "CSS Gradient Generator - Create Beautiful Gradients | Daily AI World",
+        description: "Create stunning CSS gradients with our free online generator. Copy CSS code instantly for your projects.",
+        component: GradientGenerator,
+    },
+    "color-palette-generator": {
+        title: "Color Palette Generator - Random Color Schemes | Daily AI World",
+        description: "Generate beautiful color palettes for your designs. Lock colors, generate random schemes, and copy HEX codes.",
+        component: ColorPaletteGenerator,
+    },
+    "color-converter": {
+        title: "Color Converter - HEX to RGB to HSL | Daily AI World",
+        description: "Convert colors between HEX, RGB, and HSL formats instantly. Free online color converter tool.",
+        component: ColorConverter,
+    },
+    "contrast-checker": {
+        title: "Contrast Checker - WCAG Accessibility Testing | Daily AI World",
+        description: "Check color contrast ratios and ensure WCAG accessibility compliance for your designs.",
+        component: ContrastChecker,
+    },
+    "box-shadow-generator": {
+        title: "CSS Box Shadow Generator - Visual Shadow Editor | Daily AI World",
+        description: "Create custom CSS box shadows visually. Adjust offsets, blur, spread, and color with real-time preview.",
+        component: BoxShadowGenerator,
+    },
+    "border-radius-generator": {
+        title: "CSS Border Radius Generator - Visual Border Editor | Daily AI World",
+        description: "Visually generate CSS border-radius code. Adjust corners independently or linked.",
+        component: BorderRadiusGenerator,
+    },
+    "favicon-generator": {
+        title: "Favicon Generator - Create Website Favicons | Daily AI World",
+        description: "Convert images to favicons (ICO, PNG) for your website. Preview how it looks in browser tabs.",
+        component: FaviconGenerator,
+    },
+    "image-resizer": {
+        title: "Image Resizer - Resize Images Online | Daily AI World",
+        description: "Resize your images to exact dimensions or percentage. Free online image resizer tool.",
+        component: ImageResizer,
+    },
+    "image-compressor": {
+        title: "Image Compressor - Reduce Image Size | Daily AI World",
+        description: "Compress images to reduce file size without losing quality. Free online image compressor.",
+        component: ImageCompressor,
+    },
+    "image-converter": {
+        title: "Image Converter - PNG to JPG, WEBP | Daily AI World",
+        description: "Convert images between PNG, JPG, and WEBP formats. Free online image converter.",
+        component: ImageConverter,
+    },
+    "image-cropper": {
+        title: "Image Cropper - Crop & Rotate Images | Daily AI World",
+        description: "Crop and rotate images online. Preset aspect ratios for social media. Free image cropper.",
+        component: ImageCropper,
+    },
+    "image-filters": {
+        title: "Image Filters - Apply Effects Online | Daily AI World",
+        description: "Apply filters and effects to your images. Adjust brightness, contrast, and more.",
+        component: ImageFilters,
+    },
+};
