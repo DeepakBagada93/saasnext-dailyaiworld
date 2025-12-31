@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, ChevronDown, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
+import { AnimatedLogo } from "@/components/ui/AnimatedLogo";
 
 export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -78,9 +79,7 @@ export function Navbar() {
             <div className="container mx-auto px-4 h-20 flex items-center justify-between">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 group">
-                    <div className="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-orange-500 to-red-600 rounded-lg shadow-lg group-hover:shadow-orange-500/20 transition-all duration-300">
-                        <Sparkles className="w-5 h-5 text-white" />
-                    </div>
+                    <AnimatedLogo />
                     <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70 group-hover:to-orange-400 transition-all duration-300">
                         Daily AI World
                     </span>
