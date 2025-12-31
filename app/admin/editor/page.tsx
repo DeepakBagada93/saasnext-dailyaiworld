@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { RichTextEditor } from "@/components/admin/RichTextEditor";
+import { MarkdownEditor } from "@/components/admin/MarkdownEditor";
 
 function Editor() {
     const [title, setTitle] = useState("");
@@ -304,10 +304,10 @@ function Editor() {
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Content</label>
                         <div className="prose-editor">
-                            <RichTextEditor
+                            <MarkdownEditor
                                 value={content}
                                 onChange={setContent}
-                                className="min-h-[400px]"
+                                className="min-h-[500px]"
                             />
                         </div>
                     </div>
