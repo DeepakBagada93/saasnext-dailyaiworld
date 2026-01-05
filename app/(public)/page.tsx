@@ -10,6 +10,7 @@ async function getPosts() {
     .from("posts")
     .select("*")
     .eq("is_published", true)
+    .or(`scheduled_publish_date.is.null,scheduled_publish_date.lte.${new Date().toISOString()}`)
     .order("created_at", { ascending: false });
 
   if (error) {

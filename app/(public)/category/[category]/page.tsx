@@ -26,6 +26,7 @@ async function getPostsByCategory(category: string) {
         .select("*")
         .eq("is_published", true)
         .eq("category", category)
+        .or(`scheduled_publish_date.is.null,scheduled_publish_date.lte.${new Date().toISOString()}`)
         .order("created_at", { ascending: false });
 
     if (error) {

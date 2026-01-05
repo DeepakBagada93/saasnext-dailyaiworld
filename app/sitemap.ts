@@ -8,6 +8,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         .from('posts')
         .select('slug, updated_at')
         .eq('is_published', true)
+        .or(`scheduled_publish_date.is.null,scheduled_publish_date.lte.${new Date().toISOString()}`)
 
     const postEntries: MetadataRoute.Sitemap = (posts || []).map((post) => ({
         url: `https://dailyaiworld.com/post/${post.slug}`,

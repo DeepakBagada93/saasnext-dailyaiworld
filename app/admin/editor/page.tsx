@@ -16,6 +16,8 @@ function Editor() {
     const [category, setCategory] = useState("AI Business");
     const [coverImage, setCoverImage] = useState("");
     const [isPublished, setIsPublished] = useState(false);
+    const [scheduledPublishDate, setScheduledPublishDate] = useState("");
+    const [publishMode, setPublishMode] = useState<"draft" | "now" | "schedule">("draft");
 
     // SEO Fields
     const [metaTitle, setMetaTitle] = useState("");
@@ -58,6 +60,8 @@ function Editor() {
                     setCategory(data.category);
                     setCoverImage(data.cover_image);
                     setIsPublished(data.is_published);
+                    setScheduledPublishDate(data.scheduled_publish_date || "");
+                    setPublishMode(data.scheduled_publish_date ? "schedule" : (data.is_published ? "now" : "draft"));
                     setMetaTitle(data.meta_title || "");
                     setMetaDescription(data.meta_description || "");
                     setKeywords(data.keywords || "");
@@ -110,6 +114,10 @@ function Editor() {
         e.preventDefault();
         setLoading(true);
 
+        // Determine publish status based on mode
+        const finalIsPublished = publishMode === "now" || (publishMode === "schedule" && scheduledPublishDate && new Date(scheduledPublishDate) <= new Date());
+        const finalScheduledDate = publishMode === "schedule" && scheduledPublishDate ? scheduledPublishDate : null;
+
         const postData = {
             title,
             slug,
@@ -117,7 +125,8 @@ function Editor() {
             excerpt,
             category,
             cover_image: coverImage,
-            is_published: isPublished,
+            is_published: finalIsPublished,
+            scheduled_publish_date: finalScheduledDate,
             meta_title: metaTitle,
             meta_description: metaDescription,
             keywords,
@@ -210,17 +219,52 @@ function Editor() {
                                 </select>
                             </div>
 
-                            <div className="flex items-center gap-2 pt-4">
-                                <input
-                                    type="checkbox"
-                                    id="published"
-                                    checked={isPublished}
-                                    onChange={(e) => setIsPublished(e.target.checked)}
-                                    className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
-                                />
-                                <label htmlFor="published" className="text-sm font-medium">
-                                    Publish immediately
-                                </label>
+                            <div className="space-y-4 pt-4 border-t border-border">
+                                <label className="text-sm font-semibold">Publishing Options</label>
+                                <div className="space-y-2">
+                                    <label className="flex items-center gap-2 cursor-pointer">
+                                        <input
+                                            type="radio"
+                                            name="publishMode"
+                                            checked={publishMode === "draft"}
+                                            onChange={() => setPublishMode("draft")}
+                                            className="h-4 w-4 text-primary focus:ring-primary"
+                                        />
+                                        <span className="text-sm">Save as Draft</span>
+                                    </label>
+                                    <label className="flex items-center gap-2 cursor-pointer">
+                                        <input
+                                            type="radio"
+                                            name="publishMode"
+                                            checked={publishMode === "now"}
+                                            onChange={() => setPublishMode("now")}
+                                            className="h-4 w-4 text-primary focus:ring-primary"
+                                        />
+                                        <span className="text-sm">Publish Immediately</span>
+                                    </label>
+                                    <label className="flex items-center gap-2 cursor-pointer">
+                                        <input
+                                            type="radio"
+                                            name="publishMode"
+                                            checked={publishMode === "schedule"}
+                                            onChange={() => setPublishMode("schedule")}
+                                            className="h-4 w-4 text-primary focus:ring-primary"
+                                        />
+                                        <span className="text-sm">Schedule for Later</span>
+                                    </label>
+                                </div>
+                                {publishMode === "schedule" && (
+                                    <div className="pl-6 space-y-2">
+                                        <label className="text-xs text-muted-foreground">Publish Date & Time</label>
+                                        <input
+                                            type="datetime-local"
+                                            value={scheduledPublishDate}
+                                            onChange={(e) => setScheduledPublishDate(e.target.value)}
+                                            min={new Date().toISOString().slice(0, 16)}
+                                            className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring text-sm"
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
 

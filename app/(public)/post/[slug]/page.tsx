@@ -19,6 +19,8 @@ async function getPost(slug: string) {
         .from("posts")
         .select("*")
         .eq("slug", slug)
+        .eq("is_published", true)
+        .or(`scheduled_publish_date.is.null,scheduled_publish_date.lte.${new Date().toISOString()}`)
         .single();
 
     if (error || !post) {
