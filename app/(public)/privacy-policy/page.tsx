@@ -5,7 +5,7 @@ export default function PrivacyPolicyPage() {
         <div className="container mx-auto px-4 py-12 max-w-4xl">
             <h1 className="text-4xl font-bold mb-8">Privacy Policy</h1>
             <div className="prose dark:prose-invert max-w-none">
-                <p className="mb-4">Last updated: {new Date().toLocaleDateString()}</p>
+                <p className="mb-4">Last updated: {new Date().toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })}</p>
 
                 <h2 className="text-2xl font-semibold mt-8 mb-4">1. Introduction</h2>
                 <p className="mb-4">
