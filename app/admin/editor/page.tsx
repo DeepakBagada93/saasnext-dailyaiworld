@@ -115,7 +115,9 @@ function Editor() {
         setLoading(true);
 
         // Determine publish status based on mode
-        const finalIsPublished = publishMode === "now" || (publishMode === "schedule" && scheduledPublishDate && new Date(scheduledPublishDate) <= new Date());
+        // For scheduled posts, we set is_published to true, but the RLS policy and frontend filters 
+        // will hide it until the scheduled date.
+        const finalIsPublished = publishMode === "now" || (publishMode === "schedule" && !!scheduledPublishDate);
         const finalScheduledDate = publishMode === "schedule" && scheduledPublishDate ? scheduledPublishDate : null;
 
         const postData = {
@@ -256,13 +258,26 @@ function Editor() {
                                 {publishMode === "schedule" && (
                                     <div className="pl-6 space-y-2">
                                         <label className="text-xs text-muted-foreground">Publish Date & Time</label>
-                                        <input
-                                            type="datetime-local"
-                                            value={scheduledPublishDate}
-                                            onChange={(e) => setScheduledPublishDate(e.target.value)}
-                                            min={new Date().toISOString().slice(0, 16)}
-                                            className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring text-sm"
-                                        />
+                                        <div className="relative">
+                                            <input
+                                                type="datetime-local"
+                                                value={scheduledPublishDate}
+                                                onChange={(e) => setScheduledPublishDate(e.target.value)}
+                                                min={new Date().toISOString().slice(0, 16)}
+                                                className="w-full pl-10 pr-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring text-sm [color-scheme:dark]"
+                                            />
+                                            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+                                                    <line x1="16" x2="16" y1="2" y2="6" />
+                                                    <line x1="8" x2="8" y1="2" y2="6" />
+                                                    <line x1="3" x2="21" y1="10" y2="10" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <p className="text-[10px] text-muted-foreground">
+                                            Post will be visible to the public after this date.
+                                        </p>
                                     </div>
                                 )}
                             </div>

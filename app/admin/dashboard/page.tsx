@@ -264,12 +264,18 @@ export default function DashboardPage() {
                                             <span
                                                 className={cn(
                                                     "px-2 py-1 rounded-full text-xs font-medium",
-                                                    post.is_published
-                                                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                                                        : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                                                    !post.is_published
+                                                        ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                                                        : post.scheduled_publish_date && new Date(post.scheduled_publish_date) > new Date()
+                                                            ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                                                            : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
                                                 )}
                                             >
-                                                {post.is_published ? "Published" : "Draft"}
+                                                {!post.is_published
+                                                    ? "Draft"
+                                                    : post.scheduled_publish_date && new Date(post.scheduled_publish_date) > new Date()
+                                                        ? "Scheduled"
+                                                        : "Published"}
                                             </span>
                                         </td>
                                         <td className="p-4 text-muted-foreground">
@@ -339,12 +345,18 @@ export default function DashboardPage() {
                                 <span
                                     className={cn(
                                         "px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap",
-                                        post.is_published
-                                            ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                                            : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                                        !post.is_published
+                                            ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                                            : post.scheduled_publish_date && new Date(post.scheduled_publish_date) > new Date()
+                                                ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                                                : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
                                     )}
                                 >
-                                    {post.is_published ? "Published" : "Draft"}
+                                    {!post.is_published
+                                        ? "Draft"
+                                        : post.scheduled_publish_date && new Date(post.scheduled_publish_date) > new Date()
+                                            ? "Scheduled"
+                                            : "Published"}
                                 </span>
                             </div>
                             <div className="flex items-center gap-4 text-sm text-muted-foreground">
