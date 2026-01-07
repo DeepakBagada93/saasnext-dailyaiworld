@@ -69,9 +69,22 @@ export default async function PostPage({ params }: PostPageProps) {
                     description: post.excerpt,
                     image: post.cover_image,
                     datePublished: post.created_at,
+                    dateModified: post.updated_at || post.created_at,
                     author: {
                         "@type": "Person",
                         name: "Daily AI World Team",
+                    },
+                    publisher: {
+                        "@type": "Organization",
+                        name: "Daily AI World",
+                        logo: {
+                            "@type": "ImageObject",
+                            url: "https://dailyaiworld.com/siteicon.png",
+                        },
+                    },
+                    mainEntityOfPage: {
+                        "@type": "WebPage",
+                        "@id": `https://dailyaiworld.com/post/${post.slug}`,
                     },
                 }}
             />

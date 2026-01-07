@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { toolsConfig } from "@/config/tools";
+import { Schema } from "@/components/seo/Schema";
 
 export async function generateMetadata({ params }: { params: Promise<{ tool: string }> }): Promise<Metadata> {
     const resolvedParams = await params;
@@ -42,7 +43,25 @@ export default async function ToolPage({ params }: { params: Promise<{ tool: str
 
     const ToolComponent = config.component;
 
-    return <ToolComponent />;
+    return (
+        <>
+            <Schema
+                type="SoftwareApplication"
+                data={{
+                    name: config.title,
+                    description: config.description,
+                    applicationCategory: "UtilitiesApplication",
+                    operatingSystem: "Web",
+                    offers: {
+                        "@type": "Offer",
+                        price: "0",
+                        priceCurrency: "USD",
+                    },
+                }}
+            />
+            <ToolComponent />
+        </>
+    );
 }
 
 export async function generateStaticParams() {

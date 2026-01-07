@@ -113,6 +113,23 @@ export default function RootLayout({
             },
           }}
         />
+        <Schema
+          type="Organization"
+          data={{
+            name: "Daily AI World",
+            url: "https://dailyaiworld.com",
+            logo: "https://dailyaiworld.com/siteicon.png",
+            sameAs: [
+              "https://twitter.com/dailyaiworld",
+              // Add other social profiles here
+            ],
+            contactPoint: {
+              "@type": "ContactPoint",
+              telephone: "", // Add if available
+              contactType: "customer service",
+            },
+          }}
+        />
         {/* Google Analytics */}
         <Script
           strategy="afterInteractive"
