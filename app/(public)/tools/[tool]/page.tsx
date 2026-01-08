@@ -4,7 +4,12 @@ import { Schema } from "@/components/seo/Schema";
 
 export async function generateMetadata({ params }: { params: Promise<{ tool: string }> }): Promise<Metadata> {
     const resolvedParams = await params;
-    const config = toolsConfig[resolvedParams.tool as keyof typeof toolsConfig];
+    const config = toolsConfig[resolvedParams.tool as keyof typeof toolsConfig] as {
+        title: string;
+        description: string;
+        component: React.ComponentType;
+        content?: React.ReactNode;
+    };
 
     if (!config) {
         return {
@@ -30,7 +35,12 @@ export async function generateMetadata({ params }: { params: Promise<{ tool: str
 
 export default async function ToolPage({ params }: { params: Promise<{ tool: string }> }) {
     const resolvedParams = await params;
-    const config = toolsConfig[resolvedParams.tool as keyof typeof toolsConfig];
+    const config = toolsConfig[resolvedParams.tool as keyof typeof toolsConfig] as {
+        title: string;
+        description: string;
+        component: React.ComponentType;
+        content?: React.ReactNode;
+    };
 
     if (!config) {
         return (
@@ -60,6 +70,14 @@ export default async function ToolPage({ params }: { params: Promise<{ tool: str
                 }}
             />
             <ToolComponent />
+
+            {config.content && (
+                <div className="container mx-auto px-4 py-12 max-w-4xl">
+                    <div className="prose dark:prose-invert max-w-none">
+                        {config.content}
+                    </div>
+                </div>
+            )}
         </>
     );
 }

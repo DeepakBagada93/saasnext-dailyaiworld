@@ -2,6 +2,8 @@ import { createClient } from "@/lib/supabase";
 import { BentoGrid } from "@/components/ui/BentoGrid";
 import { Schema } from "@/components/seo/Schema";
 import { notFound } from "next/navigation";
+import { categoryConfig } from "@/config/categories";
+import { CategoryHero } from "@/components/ui/CategoryHero";
 
 export const revalidate = 0;
 
@@ -45,6 +47,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         notFound();
     }
 
+    const config = categoryConfig[categoryName] || {
+        title: categoryName,
+        description: `Latest insights and trends in ${categoryName}.`,
+        gradient: "from-primary to-primary/50",
+    };
+
     const posts = await getPostsByCategory(categoryName);
 
     return (
@@ -68,14 +76,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                     ],
                 }}
             />
-            <header className="mb-12 text-center max-w-2xl mx-auto">
-                <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4">
-                    {categoryName}
-                </h1>
-                <p className="text-lg text-muted-foreground">
-                    Latest insights and trends in {categoryName}.
-                </p>
-            </header>
+
+            <CategoryHero
+                title={config.title}
+                description={config.description}
+                gradient={config.gradient}
+            />
 
             <BentoGrid posts={posts} />
         </>

@@ -67,6 +67,12 @@ export function Navbar() {
             { name: "Image Cropper", href: "/tools/image-cropper" },
             { name: "Image Filters", href: "/tools/image-filters" },
         ],
+        text_utility: [
+            { name: "QR Code Generator", href: "/tools/qr-code-generator" },
+            { name: "Password Generator", href: "/tools/password-generator" },
+            { name: "Word Counter", href: "/tools/word-counter" },
+            { name: "JSON Formatter", href: "/tools/json-formatter" },
+        ],
     };
 
     return (
@@ -118,7 +124,7 @@ export function Navbar() {
                                     className="absolute top-full right-0 w-[1000px] pt-2"
                                 >
                                     <div className="glass-card rounded-xl p-6 shadow-2xl border border-white/10 bg-black/95 backdrop-blur-xl">
-                                        <div className="grid grid-cols-5 gap-6">
+                                        <div className="grid grid-cols-3 gap-6">
                                             <div>
                                                 <h4 className="text-xs font-semibold text-orange-500 mb-3 uppercase tracking-wider flex items-center gap-2">
                                                     <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
@@ -204,6 +210,23 @@ export function Navbar() {
                                                     ))}
                                                 </div>
                                             </div>
+                                            <div>
+                                                <h4 className="text-xs font-semibold text-orange-500 mb-3 uppercase tracking-wider flex items-center gap-2">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                                                    Text & Utility
+                                                </h4>
+                                                <div className="grid gap-1">
+                                                    {toolsLinks.text_utility.map((tool) => (
+                                                        <Link
+                                                            key={tool.href}
+                                                            href={tool.href}
+                                                            className="block px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
+                                                        >
+                                                            {tool.name}
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -255,7 +278,7 @@ export function Navbar() {
                                             >
                                                 <span className="capitalize flex items-center gap-2">
                                                     <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
-                                                    {category}
+                                                    {category.replace("_", " ")}
                                                 </span>
                                                 <ChevronDown
                                                     size={16}
