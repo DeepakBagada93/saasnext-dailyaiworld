@@ -10,34 +10,51 @@ interface CategoryHeroProps {
 }
 
 export function CategoryHero({ title, description, gradient }: CategoryHeroProps) {
-    return (
-        <div className="relative w-full py-20 md:py-32 overflow-hidden">
-            {/* Background Gradient */}
-            <div className="absolute inset-0 opacity-10">
-                <div className={cn("absolute inset-0 bg-gradient-to-br", gradient)} />
-                <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
-            </div>
+    const container = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.3,
+            },
+        },
+    };
 
-            <div className="container mx-auto px-4 relative z-10">
-                <div className="max-w-3xl mx-auto text-center">
+    const item = {
+        hidden: { y: 20, opacity: 0 },
+        show: { y: 0, opacity: 1, transition: { duration: 0.5, ease: "easeOut" as const } },
+    };
+
+    return (
+        <section className="relative overflow-hidden py-20 md:py-32">
+            {/* Background Elements */}
+            <div className={cn("absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] rounded-full blur-[120px] -z-10 opacity-30 bg-gradient-to-r", gradient)} />
+
+            <div className="container mx-auto px-4 text-center max-w-4xl">
+                <motion.div
+                    variants={container}
+                    initial="hidden"
+                    animate="show"
+                    className="space-y-8"
+                >
                     <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="text-4xl md:text-6xl font-bold tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70"
+                        variants={item}
+                        className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter"
                     >
-                        {title}
+                        <span className={cn("bg-clip-text text-transparent bg-gradient-to-r", gradient)}>
+                            {title}
+                        </span>
                     </motion.h1>
+
                     <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                        className="text-lg md:text-xl text-muted-foreground leading-relaxed"
+                        variants={item}
+                        className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-2xl mx-auto"
                     >
                         {description}
                     </motion.p>
-                </div>
+                </motion.div>
             </div>
-        </div>
+        </section>
     );
 }
