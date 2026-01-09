@@ -18,7 +18,9 @@ import {
     Image as ImageIcon,
     Eye,
     Edit2,
+    Youtube,
 } from "lucide-react";
+import rehypeRaw from "rehype-raw";
 
 interface MarkdownEditorProps {
     value: string;
@@ -68,6 +70,7 @@ export function MarkdownEditor({ value, onChange, className }: MarkdownEditorPro
         { icon: Code, label: "Code Block", action: () => insertFormatting("```\n", "\n```") },
         { icon: LinkIcon, label: "Link", action: () => insertFormatting("[", "](url)") },
         { icon: ImageIcon, label: "Image", action: () => insertFormatting("![alt text](", ")") },
+        { icon: Youtube, label: "YouTube Embed", action: () => insertFormatting('<iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', "") },
     ];
 
     return (
@@ -129,7 +132,10 @@ export function MarkdownEditor({ value, onChange, className }: MarkdownEditorPro
                 ) : (
                     <div className="prose prose-lg dark:prose-invert max-w-none p-6 min-h-[500px] overflow-y-auto">
                         {value ? (
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            <ReactMarkdown
+                                remarkPlugins={[remarkGfm]}
+                                rehypePlugins={[rehypeRaw]}
+                            >
                                 {value}
                             </ReactMarkdown>
                         ) : (

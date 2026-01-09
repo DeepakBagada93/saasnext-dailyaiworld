@@ -1,9 +1,8 @@
 import { createClient } from "@/lib/supabase";
 import { Schema } from "@/components/seo/Schema";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { Metadata } from "next";
+import { MarkdownRenderer } from "@/components/ui/MarkdownRenderer";
 
 export const revalidate = 0;
 
@@ -113,11 +112,7 @@ export default async function PostPage({ params }: PostPageProps) {
                     />
                 </div>
 
-                <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-img:rounded-xl">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {post.content}
-                    </ReactMarkdown>
-                </div>
+                <MarkdownRenderer content={post.content} />
             </article>
         </>
     );
