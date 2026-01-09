@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase";
 import { BentoGrid } from "@/components/ui/BentoGrid";
 import { AnimatedHero } from "@/components/ui/AnimatedHero";
+import { SEOContent } from "@/components/ui/SEOContent";
 
 export const revalidate = 0; // Disable caching for demo purposes
 
@@ -30,6 +31,7 @@ export default async function Home() {
       <section id="latest-posts" className="scroll-mt-20">
         <BentoGrid posts={posts} />
       </section>
+      <SEOContent />
     </>
   );
 }
