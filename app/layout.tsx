@@ -122,12 +122,16 @@ export default function RootLayout({
             logo: "https://dailyaiworld.com/siteicon.png",
             sameAs: [
               "https://twitter.com/dailyaiworld",
-              // Add other social profiles here
+              "https://www.linkedin.com/company/dailyaiworld",
+              "https://www.facebook.com/dailyaiworld"
             ],
             contactPoint: {
               "@type": "ContactPoint",
-              telephone: "", // Add if available
+              telephone: "",
               contactType: "customer service",
+              email: "contact@dailyaiworld.com",
+              areaServed: "US",
+              availableLanguage: "en"
             },
           }}
         />
