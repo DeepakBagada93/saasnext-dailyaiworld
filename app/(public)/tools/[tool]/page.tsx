@@ -20,10 +20,21 @@ export async function generateMetadata({ params }: { params: Promise<{ tool: str
     return {
         title: config.title,
         description: config.description,
+        keywords: [
+            config.title.split(' - ')[0],
+            'online tool',
+            'free tool',
+            'Daily AI World',
+            resolvedParams.tool.split('-').join(' '),
+        ],
+        alternates: {
+            canonical: `https://dailyaiworld.com/tools/${resolvedParams.tool}`,
+        },
         openGraph: {
             title: config.title,
             description: config.description,
             type: "website",
+            url: `https://dailyaiworld.com/tools/${resolvedParams.tool}`,
         },
         twitter: {
             card: "summary_large_image",
