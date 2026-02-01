@@ -70,7 +70,7 @@ export function BentoGrid({ posts }: BentoGridProps) {
                                         </Badge>
                                         <div className="flex items-center text-xs text-white/70 gap-1">
                                             <Calendar className="w-3 h-3" />
-                                            <span>
+                                            <span suppressHydrationWarning>
                                                 {new Date(post.created_at).toLocaleDateString("en-US", {
                                                     year: "numeric",
                                                     month: "long",
@@ -110,7 +110,7 @@ export function BentoGrid({ posts }: BentoGridProps) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="mt-16 flex items-center justify-center gap-4"
+                    className="mt-16 flex items-center justify-center gap-6"
                 >
                     {/* Previous Button */}
                     <motion.button
@@ -119,43 +119,21 @@ export function BentoGrid({ posts }: BentoGridProps) {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className={cn(
-                            "group relative px-6 py-3 rounded-full font-medium transition-all duration-300",
+                            "group relative px-8 py-3 rounded-full font-medium transition-all duration-300 flex items-center gap-2",
                             "bg-white/5 backdrop-blur-sm border border-white/10",
-                            "hover:bg-white/10 hover:border-white/20",
+                            "hover:bg-white/10 hover:border-white/20 hover:text-white",
                             "disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100"
                         )}
                     >
                         <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                        <span>Previous</span>
                     </motion.button>
 
-                    {/* Page Numbers */}
-                    <div className="flex items-center gap-2">
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                            <motion.button
-                                key={page}
-                                onClick={() => handlePageChange(page)}
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
-                                className="relative"
-                            >
-                                {currentPage === page && (
-                                    <motion.div
-                                        layoutId="activePage"
-                                        className="absolute inset-0 bg-gradient-to-r from-primary to-orange-600 rounded-full blur-sm"
-                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                    />
-                                )}
-                                <div className={cn(
-                                    "relative w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-semibold transition-all duration-300",
-                                    "border backdrop-blur-sm",
-                                    currentPage === page
-                                        ? "bg-gradient-to-r from-primary to-orange-600 border-primary text-white shadow-lg shadow-primary/50"
-                                        : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20 hover:text-white"
-                                )}>
-                                    {page}
-                                </div>
-                            </motion.button>
-                        ))}
+                    {/* Page Indicator */}
+                    <div className="text-center">
+                        <p className="text-sm text-white/40">
+                            Page <span className="text-primary font-semibold">{currentPage}</span> of <span className="text-white/60">{totalPages}</span>
+                        </p>
                     </div>
 
                     {/* Next Button */}
@@ -165,30 +143,19 @@ export function BentoGrid({ posts }: BentoGridProps) {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className={cn(
-                            "group relative px-6 py-3 rounded-full font-medium transition-all duration-300",
+                            "group relative px-8 py-3 rounded-full font-medium transition-all duration-300 flex items-center gap-2",
                             "bg-white/5 backdrop-blur-sm border border-white/10",
-                            "hover:bg-white/10 hover:border-white/20",
+                            "hover:bg-white/10 hover:border-white/20 hover:text-white",
                             "disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100"
                         )}
                     >
+                        <span>Next</span>
                         <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </motion.button>
                 </motion.div>
             )}
 
-            {/* Page Indicator */}
-            {totalPages > 1 && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="text-center mt-6"
-                >
-                    <p className="text-sm text-white/40">
-                        Page <span className="text-primary font-semibold">{currentPage}</span> of <span className="text-white/60">{totalPages}</span>
-                    </p>
-                </motion.div>
-            )}
+
         </div>
     );
 }
