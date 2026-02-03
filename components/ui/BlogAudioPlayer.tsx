@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Play, Pause, Square, Volume2 } from "lucide-react";
+import { Play, Pause, Square, Volume2, Loader2 } from "lucide-react";
 import { Button } from "./Button";
 
 interface BlogAudioPlayerProps {
@@ -14,6 +14,8 @@ export function BlogAudioPlayer({ content }: BlogAudioPlayerProps) {
     const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(null);
     const [progress, setProgress] = useState(0); // 0 to 100 (approximate)
     const [voicesLoaded, setVoicesLoaded] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [mounted, setMounted] = useState(false);
     const [lastCharIndex, setLastCharIndex] = useState(0);
     const cleanTextRef = useRef("");
 
@@ -32,10 +34,12 @@ export function BlogAudioPlayer({ content }: BlogAudioPlayerProps) {
 
     // Load voices and set up voice change listener
     useEffect(() => {
+        setMounted(true);
         const loadVoices = () => {
             const voices = window.speechSynthesis.getVoices();
             if (voices.length > 0) {
                 setVoicesLoaded(true);
+                setIsLoading(false);
             }
         };
 
@@ -45,14 +49,21 @@ export function BlogAudioPlayer({ content }: BlogAudioPlayerProps) {
         // Listen for voices to load (important for mobile)
         window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
 
+        // Safety timeout to ensure we don't show loading forever on devices with issues
+        const timeoutId = setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
+
         return () => {
             window.speechSynthesis.removeEventListener('voiceschanged', loadVoices);
+            clearTimeout(timeoutId);
         };
     }, []);
 
     // Create utterance when content changes or voices load
     useEffect(() => {
-        if (!voicesLoaded) return;
+        // Remove early return to ensure default voice works
+        // if (!voicesLoaded) return;
 
         const cleanText = getCleanText(content);
         cleanTextRef.current = cleanText;
@@ -86,6 +97,12 @@ export function BlogAudioPlayer({ content }: BlogAudioPlayerProps) {
         };
 
         newUtterance.onerror = (event) => {
+            // Ignore benign errors caused by stopping/canceling
+            if (event.error === 'canceled' || event.error === 'interrupted') {
+                setIsPlaying(false);
+                setIsPaused(false);
+                return;
+            }
             console.error('Speech synthesis error:', event);
             setIsPlaying(false);
             setIsPaused(false);
@@ -113,7 +130,47 @@ export function BlogAudioPlayer({ content }: BlogAudioPlayerProps) {
     }, [content, voicesLoaded]);
 
     const handlePlay = () => {
-        if (!utterance) return;
+        // Fallback: Create utterance if it doesn't exist yet (e.g. race condition)
+        if (!utterance) {
+            const cleanText = getCleanText(content);
+            const newUtterance = new SpeechSynthesisUtterance(cleanText);
+
+            // Try to set voice if available, otherwise use default
+            const voices = window.speechSynthesis.getVoices();
+            if (voices.length > 0) {
+                const preferredVoice = voices.find(v => v.lang.startsWith('en'));
+                if (preferredVoice) newUtterance.voice = preferredVoice;
+            }
+
+            // Bind events (copied from useEffect)
+            newUtterance.onend = () => {
+                setIsPlaying(false);
+                setIsPaused(false);
+                setProgress(0);
+                setLastCharIndex(0);
+            };
+            newUtterance.onerror = (event) => {
+                // Ignore benign errors caused by stopping/canceling
+                if (event.error === 'canceled' || event.error === 'interrupted') {
+                    setIsPlaying(false);
+                    setIsPaused(false);
+                    return;
+                }
+                console.error('Speech synthesis error:', event);
+                setIsPlaying(false);
+                setIsPaused(false);
+            };
+            newUtterance.onboundary = (event) => {
+                setLastCharIndex(event.charIndex);
+                const len = cleanText.length;
+                setProgress(Math.min((event.charIndex / len) * 100, 100));
+            };
+
+            setUtterance(newUtterance);
+            window.speechSynthesis.speak(newUtterance);
+            setIsPlaying(true);
+            return;
+        }
 
         try {
             if (isPaused) {
@@ -136,7 +193,17 @@ export function BlogAudioPlayer({ content }: BlogAudioPlayerProps) {
 
                     // Set up event handlers
                     newUtterance.onend = utterance.onend;
-                    newUtterance.onerror = utterance.onerror;
+                    newUtterance.onerror = (event) => {
+                        // Ignore benign errors caused by stopping/canceling
+                        if (event.error === 'canceled' || event.error === 'interrupted') {
+                            setIsPlaying(false);
+                            setIsPaused(false);
+                            return;
+                        }
+                        console.error('Speech synthesis error:', event);
+                        setIsPlaying(false);
+                        setIsPaused(false);
+                    };
                     newUtterance.onboundary = (event) => {
                         // Adjust char index to account for offset
                         const adjustedIndex = lastCharIndex + event.charIndex;
@@ -196,8 +263,8 @@ export function BlogAudioPlayer({ content }: BlogAudioPlayerProps) {
         }
     };
 
-    // Don't render if speech synthesis is not supported
-    if (typeof window === 'undefined' || !window.speechSynthesis) {
+    // Don't render until mounted on client
+    if (!mounted || typeof window === 'undefined' || !window.speechSynthesis) {
         return null;
     }
 
@@ -216,14 +283,22 @@ export function BlogAudioPlayer({ content }: BlogAudioPlayerProps) {
                 </div>
             </div>
             <div className="flex items-center gap-2">
-                {!isPlaying ? (
+                {isLoading ? (
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        className="rounded-full w-10 h-10"
+                        disabled
+                    >
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                    </Button>
+                ) : !isPlaying ? (
                     <Button
                         variant="outline"
                         size="icon"
                         onClick={handlePlay}
                         className="rounded-full w-10 h-10"
                         title={isPaused ? "Resume" : "Play"}
-                        disabled={!voicesLoaded}
                     >
                         <Play className="w-4 h-4 fill-current" />
                     </Button>
