@@ -6,9 +6,9 @@ import Link from "next/link";
 
 export function AnimatedHero() {
     return (
-        <section className="relative overflow-hidden py-24 md:py-32 bg-background">
+        <section className="relative overflow-hidden py-24 md:py-32 bg-transparent">
             {/* Subtle Gradient Background */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background -z-10" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent -z-10" />
 
             <div className="container mx-auto px-4 text-center max-w-4xl">
                 <div className="space-y-8">
