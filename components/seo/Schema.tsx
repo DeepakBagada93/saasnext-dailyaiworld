@@ -1,7 +1,7 @@
 import Script from "next/script";
 
 type SchemaProps = {
-    type: "WebSite" | "Article" | "BreadcrumbList" | "SoftwareApplication" | "Organization" | "FAQPage";
+    type: "WebSite" | "Article" | "BreadcrumbList" | "SoftwareApplication" | "Organization" | "FAQPage" | "AboutPage" | "ContactPage" | "WebPage";
     data: Record<string, any>;
 };
 
