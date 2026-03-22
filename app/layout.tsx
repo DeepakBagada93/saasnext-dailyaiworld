@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | Daily AI World",
   },
   description:
-    "Daily AI World - The premier source for AI insights. Discover how Generative AI, LLMs, and Machine Learning are transforming business, design, and society. Get daily updates on AI tools, future trends, and technology news from India, Asia, and the globe.",
+    "Discover the latest AI news today. Daily AI World provides real-time updates on AI business, design, and future trends from India and Asia. Master GenAI tools and strategies now.",
   keywords: [
     "Artificial Intelligence",
     "AI Business Strategies 2026",
@@ -42,6 +42,9 @@ export const metadata: Metadata = {
     "Daily AI updates",
     "AI technology trends",
     "Artificial Intelligence news",
+    "latest AI breakthroughs",
+    "AI implementation guide",
+    "how to use AI for business growth",
   ],
   authors: [{ name: "Daily AI World Team" }],
   creator: "Daily AI World",
@@ -125,6 +128,10 @@ export default function RootLayout({
               target: "https://dailyaiworld.com/search?q={search_term_string}",
               "query-input": "required name=search_term_string",
             },
+            speakable: {
+              "@type": "SpeakableSpecification",
+              cssSelector: [".headline", ".summary"]
+            }
           }}
         />
         <Schema

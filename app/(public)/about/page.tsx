@@ -4,7 +4,7 @@ import { Schema } from '@/components/seo/Schema';
 
 export const metadata: Metadata = {
     title: 'About Daily AI World | Our Mission & Vision',
-    description: 'Learn about Daily AI World, your premier destination for the latest news, insights, and developments in Artificial Intelligence. Discover our mission to demystify AI.',
+    description: 'What is Daily AI World? Daily AI World is the premier destination for AI insights, business strategies, and tool reviews. Learn about our mission to demystify AI today.',
 };
 
 export default function AboutPage() {
@@ -54,6 +54,17 @@ export default function AboutPage() {
                         "@type": "Organization",
                         name: "Daily AI World",
                         description: "Premier destination for AI news, business strategies, design tools, and future trends."
+                    }
+                }}
+            />
+            <Schema
+                type="WebPage"
+                data={{
+                    name: "About Daily AI World",
+                    description: "What is Daily AI World? Daily AI World is the premier destination for AI insights, business strategies, and tool reviews.",
+                    speakable: {
+                        "@type": "SpeakableSpecification",
+                        cssSelector: [".headline", ".summary"]
                     }
                 }}
             />

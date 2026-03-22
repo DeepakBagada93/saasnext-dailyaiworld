@@ -1,5 +1,3 @@
-import Script from "next/script";
-
 type SchemaProps = {
     type: "WebSite" | "Article" | "BreadcrumbList" | "SoftwareApplication" | "Organization" | "FAQPage" | "AboutPage" | "ContactPage" | "WebPage";
     data: Record<string, any>;
@@ -13,7 +11,7 @@ export function Schema({ type, data }: SchemaProps) {
     };
 
     return (
-        <Script
+        <script
             id={`schema-${type.toLowerCase()}`}
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}

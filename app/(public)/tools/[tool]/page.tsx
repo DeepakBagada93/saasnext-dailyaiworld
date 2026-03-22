@@ -19,13 +19,15 @@ export async function generateMetadata({ params }: { params: Promise<{ tool: str
 
     return {
         title: config.title,
-        description: config.description,
+        description: `Explore our free online tools for developers and creators. From ${resolvedParams.tool.split('-').join(' ')} to JSON formatters, get the best AI utilities at Daily AI World.`,
         keywords: [
             config.title.split(' - ')[0],
             'online tool',
             'free tool',
             'Daily AI World',
             resolvedParams.tool.split('-').join(' '),
+            'best AI utilities',
+            'how to use ' + resolvedParams.tool.split('-').join(' '),
         ],
         alternates: {
             canonical: `https://dailyaiworld.com/tools/${resolvedParams.tool}`,
@@ -83,6 +85,17 @@ export default async function ToolPage({ params }: { params: Promise<{ tool: str
                         ratingValue: "4.8",
                         ratingCount: "124",
                     },
+                }}
+            />
+            <Schema
+                type="WebPage"
+                data={{
+                    name: config.title,
+                    description: config.description,
+                    speakable: {
+                        "@type": "SpeakableSpecification",
+                        cssSelector: [".headline", ".summary"]
+                    }
                 }}
             />
             <ToolComponent />

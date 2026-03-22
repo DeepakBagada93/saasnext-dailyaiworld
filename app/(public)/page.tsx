@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase";
 import { BentoGrid } from "@/components/ui/BentoGrid";
 import { AnimatedHero } from "@/components/ui/AnimatedHero";
 import { SEOContent } from "@/components/ui/SEOContent";
+import { Schema } from "@/components/seo/Schema";
 
 export const revalidate = 0; // Disable caching for demo purposes
 
@@ -27,6 +28,17 @@ export default async function Home() {
 
   return (
     <>
+      <Schema
+        type="WebPage"
+        data={{
+          name: "Daily AI World | AI Business, Design & Future Trends",
+          description: "Discover the latest AI news today. Daily AI World provides real-time updates on AI business, design, and future trends from India and Asia.",
+          speakable: {
+            "@type": "SpeakableSpecification",
+            cssSelector: [".headline", ".summary"]
+          }
+        }}
+      />
       <AnimatedHero />
       <section id="latest-posts" className="scroll-mt-20">
         <BentoGrid posts={posts} />
