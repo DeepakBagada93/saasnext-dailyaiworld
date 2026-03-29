@@ -1,10 +1,15 @@
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { createServerSupabaseClient } from "@/lib/supabase-server";
+import { redirect } from "next/navigation";
 
-export default function AdminLayout({
+export default async function AdminLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const supabase = await createServerSupabaseClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
     return (
         <div className="flex min-h-screen bg-background font-sans">
             <AdminSidebar />
@@ -15,7 +20,7 @@ export default function AdminLayout({
                     </div>
                     <div className="flex items-center gap-4">
                         <div className="h-8 w-8 rounded-full bg-accent flex items-center justify-center text-xs font-medium">
-                            AD
+                            {user?.email?.substring(0, 2).toUpperCase() || "AD"}
                         </div>
                     </div>
                 </header>

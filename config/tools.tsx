@@ -28,6 +28,7 @@ import { QRCodeGenerator } from "@/components/tools/QRCodeGenerator";
 import { PasswordGenerator } from "@/components/tools/PasswordGenerator";
 import { WordCounter } from "@/components/tools/WordCounter";
 import { JsonFormatter } from "@/components/tools/JsonFormatter";
+import { JsonPromptGenerator } from "@/components/tools/JsonPromptGenerator";
 
 export const toolsConfig = {
     "scientific-calculator": {
@@ -270,5 +271,64 @@ export const toolsConfig = {
         title: "JSON Formatter - Validate & Beautify JSON | Daily AI World",
         description: "Format, validate, and minify JSON data. A developer-friendly tool for debugging and formatting JSON.",
         component: JsonFormatter,
+    },
+    "json-prompt-generator": {
+        title: "JSON Prompt Generator - AI Prompt Designer | Daily AI World",
+        description: "Design structured AI prompts in JSON format. Create better prompts for ChatGPT, Claude, and other LLMs.",
+        component: JsonPromptGenerator,
+        content: (
+            <div className="space-y-6">
+                <section>
+                    <h2 className="text-2xl font-bold mb-4">How to Use the JSON Prompt Generator</h2>
+                    <p className="text-muted-foreground">
+                        Our JSON Prompt Generator helps you structure your instructions for AI models using a visual designer. 
+                        By breaking down your prompt into logical components, you can achieve more consistent and high-quality results from LLMs like ChatGPT, Claude, and Gemini.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 className="text-xl font-semibold mb-3">Core Components of a Great Prompt</h3>
+                    <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+                        <li><strong>System Role:</strong> Define the persona the AI should adopt (e.g., "Expert Researcher", "Code Reviewer").</li>
+                        <li><strong>Context:</strong> Provide background information that helps the AI understand the environment or specific situation.</li>
+                        <li><strong>Task:</strong> State clearly what you want the AI to do. Be specific and action-oriented.</li>
+                        <li><strong>Constraints:</strong> Set boundaries for the output, such as word count, tone, or things to avoid.</li>
+                        <li><strong>Output Format:</strong> Specify how you want the result delivered (e.g., "JSON", "Markdown Table", "Step-by-step guide").</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3 className="text-xl font-semibold mb-3">Why Use JSON Prompts?</h3>
+                    <p className="text-muted-foreground">
+                        JSON (JavaScript Object Notation) is a structured data format that is easily understood by both humans and machines. 
+                        Many advanced LLMs are trained to follow structured instructions better than long paragraphs of text.
+                    </p>
+                    <div className="grid md:grid-cols-2 gap-4 mt-4">
+                        <div className="p-4 bg-muted/50 rounded-lg border border-border">
+                            <h4 className="font-medium mb-2">Better Structure</h4>
+                            <p className="text-sm text-muted-foreground">Separates instructions from data, making it clearer for the AI to parse.</p>
+                        </div>
+                        <div className="p-4 bg-muted/50 rounded-lg border border-border">
+                            <h4 className="font-medium mb-2">Reproducibility</h4>
+                            <p className="text-sm text-muted-foreground">Easier to save, version, and reuse across different AI models.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 className="text-xl font-semibold mb-3">FAQ</h3>
+                    <div className="space-y-4">
+                        <div>
+                            <h4 className="font-medium">Which models support JSON prompts?</h4>
+                            <p className="text-muted-foreground">Almost all modern LLMs including GPT-4, Claude 3, and Gemini Pro respond exceptionally well to structured JSON instructions.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-medium">Can I use this for API calls?</h4>
+                            <p className="text-muted-foreground">Yes! This is perfect for designing the message structure for your API integrations.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        ),
     },
 };

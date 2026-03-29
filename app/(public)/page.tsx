@@ -3,6 +3,10 @@ import { BentoGrid } from "@/components/ui/BentoGrid";
 import { AnimatedHero } from "@/components/ui/AnimatedHero";
 import { SEOContent } from "@/components/ui/SEOContent";
 import { Schema } from "@/components/seo/Schema";
+import { Section } from "@/components/ui/Section";
+import Link from "next/link";
+import { Badge } from "@/components/ui/Badge";
+import { ArrowRight } from "lucide-react";
 
 export const revalidate = 0; // Disable caching for demo purposes
 
@@ -40,9 +44,15 @@ export default async function Home() {
         }}
       />
       <AnimatedHero />
-      <section id="latest-posts" className="scroll-mt-20">
+
+      <Section id="latest-posts" className="scroll-mt-20">
+        <div className="flex items-center gap-3 mb-10">
+          <div className="h-8 w-1 bg-primary rounded-full" />
+          <h2 className="text-3xl font-bold tracking-tight text-white">Latest Analysis</h2>
+        </div>
         <BentoGrid posts={posts} />
-      </section>
+      </Section>
+      
       <SEOContent />
     </>
   );

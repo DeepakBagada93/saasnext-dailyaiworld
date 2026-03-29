@@ -72,6 +72,7 @@ export function Navbar() {
             { name: "Password Generator", href: "/tools/password-generator" },
             { name: "Word Counter", href: "/tools/word-counter" },
             { name: "JSON Formatter", href: "/tools/json-formatter" },
+            { name: "JSON Prompt Generator", href: "/tools/json-prompt-generator" },
         ],
     };
 
