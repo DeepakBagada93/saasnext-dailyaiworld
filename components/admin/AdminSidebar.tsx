@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, PlusCircle, Settings, LogOut, Menu, X, Globe } from "lucide-react";
+import { LayoutDashboard, PlusCircle, Settings, LogOut, Menu, X, Globe, Copy } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase";
 
@@ -17,6 +17,11 @@ const sidebarLinks = [
         title: "New Post",
         href: "/admin/editor",
         icon: PlusCircle,
+    },
+    {
+        title: "Bulk Post",
+        href: "/admin/bulk-post",
+        icon: Copy,
     },
     {
         title: "Settings",
