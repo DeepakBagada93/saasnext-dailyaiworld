@@ -43,14 +43,9 @@ function Editor() {
             }
 
             if (id) {
-                // For bulk_posts, select only the columns that exist in that table
-                const selectCols = table === "bulk_posts"
-                    ? "id,title,slug,content,excerpt,category,is_published,scheduled_publish_date"
-                    : "*";
-
                 const { data, error } = await supabase
                     .from(table)
-                    .select(selectCols)
+                    .select("*")
                     .eq("id", id)
                     .single();
 
