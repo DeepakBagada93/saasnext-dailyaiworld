@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase";
+import { createServerSupabaseClient } from "@/lib/supabase-server";
 import { Schema } from "@/components/seo/Schema";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -20,7 +20,7 @@ interface PostPageProps {
 }
 
 async function getPost(slug: string) {
-    const supabase = createClient();
+    const supabase = await createServerSupabaseClient();
     const now = new Date().toISOString();
 
     // Try standard posts first
@@ -49,7 +49,7 @@ async function getPost(slug: string) {
 }
 
 async function getRelatedPosts(category: string, currentSlug: string) {
-    const supabase = createClient();
+    const supabase = await createServerSupabaseClient();
     const { data: posts } = await supabase
         .from("posts")
         .select("slug, title, cover_image, created_at, category")
