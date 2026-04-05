@@ -10,13 +10,13 @@ const Section = React.forwardRef<HTMLElement, SectionProps>(
         return (
             <section
                 ref={ref}
-                className={cn("py-16 md:py-24", className)}
+                className={cn("py-8 sm:py-12 md:py-16 lg:py-24 w-full", className)}
                 {...props}
             >
                 {container ? (
-                    <div className="container mx-auto px-4 md:px-6">{children}</div>
+                    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">{children}</div>
                 ) : (
-                    children
+                    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">{children}</div>
                 )}
             </section>
         );

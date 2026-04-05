@@ -79,15 +79,15 @@ export function Navbar() {
     return (
         <nav
             className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent",
+                "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent w-full",
                 isScrolled ? "bg-black/95 backdrop-blur-xl border-white/10 shadow-lg" : "bg-transparent"
             )}
         >
-            <div className="container mx-auto px-4 h-20 flex items-center justify-between">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 h-14 sm:h-16 md:h-20 flex items-center justify-between">
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-2 group">
+                <Link href="/" className="flex items-center gap-1 sm:gap-2 group">
                     <AnimatedLogo />
-                    <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70 group-hover:to-orange-400 transition-all duration-300">
+                    <span className="text-base sm:text-lg md:text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70 group-hover:to-orange-400 transition-all duration-300">
                         Daily AI World
                     </span>
                 </Link>

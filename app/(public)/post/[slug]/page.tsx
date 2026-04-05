@@ -6,6 +6,10 @@ import { MarkdownRenderer } from "@/components/ui/MarkdownRenderer";
 
 import { BlogAudioPlayer } from "@/components/ui/BlogAudioPlayer";
 import { RelatedPosts } from "@/components/ui/RelatedPosts";
+import { ReadingProgressBar } from "@/components/ui/ReadingProgressBar";
+import { TableOfContents } from "@/components/ui/TableOfContents";
+import { SocialShareButtons } from "@/components/ui/SocialShareButtons";
+import { ArticleStats } from "@/components/ui/ArticleStats";
 
 export const revalidate = 0;
 
@@ -17,19 +21,31 @@ interface PostPageProps {
 
 async function getPost(slug: string) {
     const supabase = createClient();
-    const { data: post, error } = await supabase
+    const now = new Date().toISOString();
+
+    // Try standard posts first
+    const { data: post } = await supabase
         .from("posts")
         .select("*")
         .eq("slug", slug)
         .eq("is_published", true)
-        .or(`scheduled_publish_date.is.null,scheduled_publish_date.lte.${new Date().toISOString()}`)
+        .or(`scheduled_publish_date.is.null,scheduled_publish_date.lte.${now}`)
         .single();
 
-    if (error || !post) {
-        return null;
-    }
+    if (post) return { ...post, _table: "posts" };
 
-    return post;
+    // Fall back to bulk_posts
+    const { data: bulkPost } = await supabase
+        .from("bulk_posts")
+        .select("id,title,slug,content,excerpt,category,is_published,scheduled_publish_date,created_at,updated_at")
+        .eq("slug", slug)
+        .eq("is_published", true)
+        .or(`scheduled_publish_date.is.null,scheduled_publish_date.lte.${now}`)
+        .single();
+
+    if (bulkPost) return { ...bulkPost, _table: "bulk_posts" };
+
+    return null;
 }
 
 async function getRelatedPosts(category: string, currentSlug: string) {
@@ -84,6 +100,12 @@ export default async function PostPage({ params }: PostPageProps) {
 
     return (
         <>
+            <ReadingProgressBar />
+            <SocialShareButtons
+                title={post.title}
+                url={`https://dailyaiworld.com/post/${post.slug}`}
+                variant="floating"
+            />
             <Schema
                 type="Article"
                 data={{
@@ -144,38 +166,57 @@ export default async function PostPage({ params }: PostPageProps) {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     {/* Main Content */}
                     <article className="lg:col-span-8">
-                        <header className="mb-8 text-center lg:text-left">
-                            <div className="text-sm font-medium uppercase tracking-wider text-muted-foreground mb-4">
-                                {post.category}
+                        <header className="mb-8">
+                            <div className="flex items-center justify-between mb-4">
+                                <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-orange-500/10 text-orange-400 rounded-full border border-orange-500/20">
+                                    {post.category}
+                                </span>
+                                <ArticleStats createdAt={post.created_at} content={post.content || post.excerpt || ""} />
                             </div>
-                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter mb-6 leading-tight">
+                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6 leading-tight text-white">
                                 {post.title}
                             </h1>
-                            <div className="text-sm text-muted-foreground">
-                                {new Date(post.created_at).toLocaleDateString("en-US", {
-                                    year: "numeric",
-                                    month: "long",
-                                    day: "numeric",
-                                })}
+                            <div className="border-t border-b border-zinc-800/50 py-4 my-6">
+                                <SocialShareButtons
+                                    title={post.title}
+                                    url={`https://dailyaiworld.com/post/${post.slug}`}
+                                    variant="inline"
+                                />
                             </div>
                         </header>
 
-                        <div className="relative aspect-video w-full mb-8 rounded-xl overflow-hidden border border-border">
+                        {post.cover_image && (
+                        <div className="relative aspect-video w-full mb-8 rounded-xl overflow-hidden border border-zinc-800/50">
                             <img
                                 src={post.cover_image}
                                 alt={post.title}
                                 className="object-cover w-full h-full"
                             />
                         </div>
+                        )}
 
                         <BlogAudioPlayer content={post.content} />
 
-                        <MarkdownRenderer content={post.content} />
+                        <div className="prose prose-invert prose-lg max-w-none">
+                            <MarkdownRenderer content={post.content} />
+                        </div>
+
+                        <div className="mt-12 pt-8 border-t border-zinc-800/50">
+                            <div className="bg-zinc-900/50 rounded-xl p-6 border border-zinc-800/50">
+                                <h3 className="text-lg font-bold text-white mb-4">Share this article</h3>
+                                <SocialShareButtons
+                                    title={post.title}
+                                    url={`https://dailyaiworld.com/post/${post.slug}`}
+                                    variant="inline"
+                                />
+                            </div>
+                        </div>
                     </article>
 
                     {/* Sidebar */}
-                    <aside className="lg:col-span-4 space-y-8">
-                        <div className="sticky top-24">
+                    <aside className="lg:col-span-4 space-y-6">
+                        <div className="sticky top-24 space-y-6">
+                            <TableOfContents content={post.content || ""} />
                             <RelatedPosts posts={relatedPosts} />
                         </div>
                     </aside>

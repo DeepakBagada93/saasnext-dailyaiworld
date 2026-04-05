@@ -10,24 +10,40 @@ import { Button } from "@/components/ui/Button";
 
 const POST_TEMPLATE = [
     {
-        "title": "Example Post 1",
-        "slug": "example-post-1",
+        "title": "The Rise of Agentic Enterprises: Managing a 1:10 Human-to-AI Ratio",
+        "slug": "rise-of-agentic-enterprises-2026",
         "category": "AI Business",
-        "excerpt": "This is a short summary of the first example post.",
-        "content": "# Example Post 1\n\nThis is the main content using markdown.",
-        "cover_image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e",
+        "excerpt": "In 2026, the most successful startups aren't hiring more people—they're scaling their 'digital headcount'. Here is how to manage a workforce of autonomous agents.",
+        "content": "# The Rise of Agentic Enterprises\n\nBy mid-2026, the corporate landscape has shifted from using AI as a 'tool' to employing AI as an 'agent'. Successful CEOs now manage orchestration layers rather than just task lists.\n\n## Key Strategies for 2026:\n- **Agent Orchestration:** Moving from prompts to goals.\n- **Digital Twin Workforces:** Scaling operations without increasing overhead.\n- **Real-time Pivot Capabilities:** Using AI to analyze market shifts in seconds.",
         "is_published": true,
         "scheduled_publish_date": null
     },
     {
-        "title": "Example Post 2",
-        "slug": "example-post-2",
+        "title": "Generative UI: The End of Static Interface Design",
+        "slug": "generative-ui-design-trends-2026",
         "category": "AI Design",
-        "excerpt": "This is a short summary of the second example post.",
-        "content": "# Example Post 2\n\nThis is the main content using markdown.",
-        "cover_image": "https://images.unsplash.com/photo-1561070791-2526d30994b5",
-        "is_published": false,
-        "scheduled_publish_date": "2026-04-01T10:00:00Z"
+        "excerpt": "Static Figma files are becoming artifacts of the past. Discover how AI is now generating unique user interfaces on-the-fly based on individual user intent.",
+        "content": "# Generative UI: The End of Static Interfaces\n\nWhy design one interface when AI can generate a billion? Generative UI (GenUI) adapts to the user's accessibility needs, aesthetic preferences, and current task context.\n\n## What's Changing:\n- **Intent-Based Layouts:** The UI reshapes itself to help the user complete their specific goal.\n- **Adaptive Accessibility:** Fonts, colors, and spacing adjust automatically for the viewer.\n- **AI-Native Components:** Design systems that learn from user interaction data.",
+        "is_published": true,
+        "scheduled_publish_date": null
+    },
+    {
+        "title": "Zero-Click Marketing: How to Win When AI Does the Searching",
+        "slug": "zero-click-marketing-strategy-2026",
+        "category": "AI Marketing",
+        "excerpt": "Traditional SEO is dead. In a world where Gemini and Claude answer users directly, your brand must learn to be the 'Source of Truth' for AI models.",
+        "content": "# Zero-Click Marketing in 2026\n\nWith 70% of searches ending in an AI-generated summary, driving traffic to a website is no longer the primary goal. Brands now compete for **Citations**.\n\n## The New Playbook:\n- **Answer Engine Optimization (AEO):** Structuring data for machine consumption.\n- **Brand Authority Nodes:** Building entity relationships that AI agents trust.\n- **Conversational Conversion:** Selling products through LLM interfaces.",
+        "is_published": true,
+        "scheduled_publish_date": null
+    },
+    {
+        "title": "Beyond LLMs: The Shift Toward Physical World Intelligence",
+        "slug": "future-of-ai-physical-intelligence-2026",
+        "category": "Future of AI",
+        "excerpt": "Large Language Models were just the beginning. The next frontier is LMMs (Large Multimodal Models) that understand physics, spatial logic, and real-world robotics.",
+        "content": "# The Future: Physical World Intelligence\n\nWe are moving beyond chatbots. The AI of late 2026 is embodied—whether in a humanoid robot or a smart city infrastructure. It no longer just 'knows' things; it 'does' things in the physical world.\n\n## Predictions for 2027:\n- **Spatial Reasoning:** AI that understands depth and physics as well as humans.\n- **Autonomous Infrastructure:** Energy grids and traffic systems managed by AGI-lite.\n- **Personal Robot Assistants:** The first mass-market consumer home robots arrive.",
+        "is_published": true,
+        "scheduled_publish_date": null
     }
 ];
 
@@ -80,12 +96,12 @@ export default function BulkPostPage() {
         
         try {
             const { error: insertError } = await supabase
-                .from("posts")
+                .from("bulk_posts")
                 .insert(parsedPosts);
 
             if (insertError) throw insertError;
 
-            setSuccess(`Successfully posted ${parsedPosts.length} blogs! Redirecting...`);
+            setSuccess(`Successfully posted ${parsedPosts.length} blogs to Bulk Table! Redirecting...`);
             setJsonInput("");
             setParsedPosts([]);
             
@@ -110,12 +126,12 @@ export default function BulkPostPage() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">Bulk Blog Posting</h1>
-                    <p className="text-muted-foreground">Add multiple blog posts at once using JSON format.</p>
+                    <p className="text-muted-foreground">Add curated trending blogs to the <span className="text-primary font-mono">bulk_posts</span> table.</p>
                 </div>
                 <div className="flex gap-2">
                     <Button variant="outline" onClick={loadTemplate} className="gap-2">
                         <FileJson className="w-4 h-4" />
-                        Load Template
+                        Load Trending Template
                     </Button>
                     <Button variant="outline" onClick={() => { setJsonInput(""); setParsedPosts([]); setError(null); setSuccess(null); }} className="gap-2 text-destructive hover:text-destructive">
                         <Trash2 className="w-4 h-4" />
@@ -213,11 +229,11 @@ export default function BulkPostPage() {
                                     disabled={loading}
                                 >
                                     {loading ? (
-                                        "Posting..."
+                                        "Posting to Bulk Table..."
                                     ) : (
                                         <>
                                             <Send className="w-5 h-5" />
-                                            Submit All Posts
+                                            Submit to Bulk Table
                                         </>
                                     )}
                                 </Button>
@@ -228,14 +244,13 @@ export default function BulkPostPage() {
                     <div className="p-6 bg-primary/5 border border-primary/10 rounded-2xl space-y-4">
                         <h4 className="font-bold text-primary flex items-center gap-2">
                             <AlertCircle className="w-4 h-4" />
-                            Helpful Tips
+                            Bulk Table Tips
                         </h4>
                         <ul className="space-y-2 text-sm text-muted-foreground list-disc pl-4">
-                            <li>Ensure all posts have a unique <code className="bg-background px-1 rounded text-primary">slug</code>.</li>
-                            <li>Images should be publicly accessible URLs.</li>
-                            <li>Categories must match exactly: <code className="text-white italic">AI Business, AI Design, AI Marketing, Future of AI</code>.</li>
-                            <li>Content supports full Markdown syntax.</li>
-                            <li><code className="bg-background px-1 rounded text-primary">scheduled_publish_date</code> uses ISO 8601 format (e.g., <code className="text-white">2026-04-01T10:00:00Z</code>).</li>
+                            <li>These posts are stored in <code className="bg-background px-1 rounded text-primary">bulk_posts</code>.</li>
+                            <li>They will be displayed in a separate "Trending" section on the frontend.</li>
+                            <li>No cover images are required for this creative text-based layout.</li>
+                            <li>Ensure categories match: <code className="text-white italic">AI Business, AI Design, AI Marketing, Future of AI</code>.</li>
                         </ul>
                     </div>
                 </div>

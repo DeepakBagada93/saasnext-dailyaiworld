@@ -31,6 +31,7 @@ function Editor() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const id = searchParams.get("id");
+    const table = searchParams.get("table") === "bulk" ? "bulk_posts" : "posts";
     const supabase = createClient();
 
     useEffect(() => {
@@ -42,15 +43,20 @@ function Editor() {
             }
 
             if (id) {
+                // For bulk_posts, select only the columns that exist in that table
+                const selectCols = table === "bulk_posts"
+                    ? "id,title,slug,content,excerpt,category,is_published,scheduled_publish_date"
+                    : "*";
+
                 const { data, error } = await supabase
-                    .from("posts")
-                    .select("*")
+                    .from(table)
+                    .select(selectCols)
                     .eq("id", id)
                     .single();
 
                 if (error) {
-                    console.error("Error fetching post:", error);
-                    alert("Post not found");
+                    console.error("Error fetching post:", error.message, error.code);
+                    alert(`Post not found (${error.message})`);
                     router.push("/admin/dashboard");
                 } else if (data) {
                     setTitle(data.title);
@@ -58,7 +64,7 @@ function Editor() {
                     setContent(data.content);
                     setExcerpt(data.excerpt);
                     setCategory(data.category);
-                    setCoverImage(data.cover_image);
+                    setCoverImage(data.cover_image || "");
                     setIsPublished(data.is_published);
                     setScheduledPublishDate(data.scheduled_publish_date || "");
                     setPublishMode(data.scheduled_publish_date ? "schedule" : (data.is_published ? "now" : "draft"));
@@ -120,30 +126,41 @@ function Editor() {
         const finalIsPublished = publishMode === "now" || (publishMode === "schedule" && !!scheduledPublishDate);
         const finalScheduledDate = publishMode === "schedule" && scheduledPublishDate ? scheduledPublishDate : null;
 
-        const postData = {
-            title,
-            slug,
-            content,
-            excerpt,
-            category,
-            cover_image: coverImage,
-            is_published: finalIsPublished,
-            scheduled_publish_date: finalScheduledDate,
-            meta_title: metaTitle,
-            meta_description: metaDescription,
-            keywords,
-        };
+        // bulk_posts doesn't have cover_image / SEO columns
+        const postData = table === "bulk_posts"
+            ? {
+                title,
+                slug,
+                content,
+                excerpt,
+                category,
+                is_published: finalIsPublished,
+                scheduled_publish_date: finalScheduledDate,
+            }
+            : {
+                title,
+                slug,
+                content,
+                excerpt,
+                category,
+                cover_image: coverImage,
+                is_published: finalIsPublished,
+                scheduled_publish_date: finalScheduledDate,
+                meta_title: metaTitle,
+                meta_description: metaDescription,
+                keywords,
+            };
 
         let error;
         if (id) {
             const { error: updateError } = await supabase
-                .from("posts")
+                .from(table)
                 .update(postData)
                 .eq("id", id);
             error = updateError;
         } else {
             const { error: insertError } = await supabase
-                .from("posts")
+                .from(table)
                 .insert([postData]);
             error = insertError;
         }

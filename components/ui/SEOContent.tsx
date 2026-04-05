@@ -29,8 +29,8 @@ export function SEOContent() {
     ];
 
     return (
-        <section className="py-20 relative overflow-hidden bg-zinc-950/50">
-            <div className="container mx-auto px-4 relative z-10">
+        <section className="py-12 sm:py-16 md:py-20 relative overflow-hidden bg-zinc-950/50">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
                 <div className="max-w-4xl mx-auto prose prose-invert prose-lg">
                     <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
                         Daily AI World: Optimized for Humans & Agents
@@ -161,10 +161,10 @@ export function SEOContent() {
                                     </li>
                                 </ul>
                                 <Link
-                                    href="https://dailyaiworld.com/subscribe"
+                                    href="/about"
                                     className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-full font-bold hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20"
                                 >
-                                    Join Free Newsletter →
+                                    Learn More About Us →
                                 </Link>
                             </div>
                         </div>

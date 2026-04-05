@@ -1,0 +1,11 @@
+
+> daily-ai-world@0.1.0 dev
+> next dev -p 5001
+
+   ▲ Next.js 16.0.7 (Turbopack)
+   - Local:         http://localhost:5001
+   - Network:       http://192.168.1.5:5001
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 3.2s
