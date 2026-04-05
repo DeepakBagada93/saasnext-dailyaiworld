@@ -37,7 +37,7 @@ async function getPost(slug: string) {
     // Fall back to bulk_posts
     const { data: bulkPost } = await supabase
         .from("bulk_posts")
-        .select("id,title,slug,content,excerpt,category,is_published,scheduled_publish_date,created_at,updated_at")
+        .select("*")
         .eq("slug", slug)
         .eq("is_published", true)
         .or(`scheduled_publish_date.is.null,scheduled_publish_date.lte.${now}`)
