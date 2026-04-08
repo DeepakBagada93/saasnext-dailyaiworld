@@ -22,6 +22,44 @@ function calculateReadTime(content: string): number {
 export function BlogCard({ post, variant = "default", index = 0 }: BlogCardProps) {
     const readTime = calculateReadTime(post.content || post.excerpt || "");
 
+    if (variant === "compact") {
+        return (
+            <motion.article
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                className="group w-full"
+            >
+                <Link
+                    href={`/post/${post.slug}`}
+                    className="flex items-center gap-3 p-2.5 rounded-xl bg-zinc-900/30 border border-zinc-800/50 hover:border-orange-500/30 hover:bg-zinc-900/60 transition-all duration-300"
+                >
+                    <div className="w-16 h-16 relative rounded-lg overflow-hidden flex-shrink-0">
+                        <Image
+                            src={post.cover_image || "/placeholder.jpg"}
+                            alt={post.title}
+                            fill
+                            className="object-cover group-hover:scale-110 transition-transform duration-500"
+                            sizes="64px"
+                        />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-orange-500">
+                            {post.category}
+                        </span>
+                        <h4 className="text-xs font-bold text-white leading-tight line-clamp-2 group-hover:text-orange-400 transition-colors">
+                            {post.title}
+                        </h4>
+                        <div className="flex items-center gap-2 mt-1 text-[10px] text-zinc-500">
+                            <Clock className="w-2.5 h-2.5" />
+                            <span>{readTime} min</span>
+                        </div>
+                    </div>
+                </Link>
+            </motion.article>
+        );
+    }
+
     return (
         <motion.article
             initial={{ opacity: 0, y: 20 }}
@@ -185,30 +223,24 @@ export function TrendingCard({ post, index }: TrendingCardProps) {
         >
             <Link
                 href={`/post/${post.slug}`}
-                className="group flex items-center gap-4 p-4 rounded-xl bg-zinc-900/30 border border-zinc-800/50 hover:border-orange-500/30 hover:bg-zinc-900/60 transition-all duration-300"
+                className="group flex flex-col gap-2 p-5 rounded-xl bg-zinc-900/30 border border-zinc-800/50 hover:border-orange-500/30 hover:bg-zinc-900/60 transition-all duration-300"
             >
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-white font-black text-sm">
-                    {index + 1}
-                </div>
-
-                <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-white font-black text-xs shrink-0">
+                        {index + 1}
+                    </div>
                     <span className="text-[10px] font-bold uppercase tracking-wider text-orange-500">
                         {post.category}
                     </span>
-                    <h4 className="text-sm font-bold text-white leading-snug line-clamp-2 group-hover:text-orange-400 transition-colors">
-                        {post.title}
-                    </h4>
                 </div>
 
-                <div className="hidden sm:block w-16 h-16 relative rounded-lg overflow-hidden flex-shrink-0">
-                    <Image
-                        src={post.cover_image || "/placeholder.jpg"}
-                        alt={post.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                        sizes="64px"
-                    />
-                </div>
+                <h4 className="text-base font-bold text-white leading-snug group-hover:text-orange-400 transition-colors">
+                    {post.title}
+                </h4>
+
+                <p className="text-sm text-zinc-400 line-clamp-2 leading-relaxed mt-1">
+                    {post.excerpt}
+                </p>
             </Link>
         </motion.div>
     );

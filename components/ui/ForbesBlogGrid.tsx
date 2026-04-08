@@ -50,30 +50,35 @@ export function ForbesBlogGrid({ posts, trendingPosts = [] }: ForbesBlogGridProp
 
     return (
         <div className="space-y-8 sm:space-y-12 w-full overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-                <div className="lg:col-span-2">
-                    {featuredPost && <FeaturedPost post={featuredPost} />}
-                </div>
+            {/* Featured Post Row */}
+            <div className="w-full">
+                {featuredPost && <FeaturedPost post={featuredPost} />}
+            </div>
 
-                {trendingPosts.length > 0 && (
-                    <div className="space-y-3 sm:space-y-4">
-                        <div className="flex items-center gap-3 mb-4 sm:mb-6">
-                            <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500 to-red-600">
-                                <TrendingUp className="w-4 h-4 text-white" />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-white">Trending Now</h3>
-                                <p className="text-xs text-zinc-500">Most read articles</p>
-                            </div>
+            {/* Separate Trending Section Row */}
+            {trendingPosts.length > 0 && (
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="py-8 border-y border-zinc-800/50 bg-zinc-900/10 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-12 lg:px-12"
+                >
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500 to-red-600">
+                            <TrendingUp className="w-4 h-4 text-white" />
                         </div>
-                        <div className="space-y-2 sm:space-y-3">
-                            {trendingPosts.slice(0, 5).map((post, index) => (
-                                <TrendingCard key={post.id} post={post} index={index} />
-                            ))}
+                        <div>
+                            <h3 className="font-bold text-white uppercase tracking-widest text-sm">Trending Now</h3>
+                            <p className="text-[10px] text-zinc-500">Most read articles this week</p>
                         </div>
                     </div>
-                )}
-            </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {trendingPosts.slice(0, 4).map((post, index) => (
+                            <TrendingCard key={post.id} post={post} index={index} />
+                        ))}
+                    </div>
+                </motion.div>
+            )}
 
             {posts.length > 6 && (
                 <motion.div
@@ -92,7 +97,7 @@ export function ForbesBlogGrid({ posts, trendingPosts = [] }: ForbesBlogGridProp
                         </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
-                        {posts.slice(2, 5).map((post, index) => (
+                        {posts.slice(1, 4).map((post, index) => (
                             <motion.div
                                 key={post.id}
                                 initial={{ opacity: 0, y: 20 }}
@@ -101,28 +106,24 @@ export function ForbesBlogGrid({ posts, trendingPosts = [] }: ForbesBlogGridProp
                             >
                                 <Link
                                     href={`/post/${post.slug}`}
-                                    className="group flex sm:flex-col gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-zinc-900/30 border border-zinc-800/50 hover:border-orange-500/30 hover:bg-zinc-900/60 transition-all duration-300"
+                                    className="group flex items-center gap-3 p-3 rounded-xl bg-zinc-900/30 border border-zinc-800/50 hover:border-orange-500/30 hover:bg-zinc-900/60 transition-all duration-300"
                                 >
-                                    <div className="w-16 sm:w-full h-16 sm:h-20 relative rounded-lg overflow-hidden flex-shrink-0">
+                                    <div className="w-14 h-14 relative rounded-lg overflow-hidden flex-shrink-0">
                                         <Image
                                             src={post.cover_image || "/placeholder.jpg"}
                                             alt={post.title}
                                             fill
                                             className="object-cover group-hover:scale-110 transition-transform duration-500"
-                                            sizes="(max-width: 640px) 64px, (max-width: 768px) 50vw, 33vw"
+                                            sizes="56px"
                                         />
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <span className="text-[10px] font-bold uppercase tracking-wider text-orange-500">
+                                        <span className="text-[9px] font-bold uppercase tracking-wider text-orange-500">
                                             {post.category}
                                         </span>
-                                        <h4 className="text-xs sm:text-sm font-semibold text-white leading-snug line-clamp-2 group-hover:text-orange-400 transition-colors mt-1">
+                                        <h4 className="text-xs font-semibold text-white leading-tight line-clamp-2 group-hover:text-orange-400 transition-colors">
                                             {post.title}
                                         </h4>
-                                        <div className="flex items-center gap-1 mt-1 sm:mt-2 text-xs text-zinc-500">
-                                            <Clock className="w-3 h-3" />
-                                            <span>{Math.ceil((post.content?.split(/\s+/).filter(Boolean).length || 0) / 200)} min</span>
-                                        </div>
                                     </div>
                                 </Link>
                             </motion.div>
@@ -171,10 +172,10 @@ export function ForbesBlogGrid({ posts, trendingPosts = [] }: ForbesBlogGridProp
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
                     >
                         {gridPosts.map((post, index) => (
-                            <BlogCard key={post.id} post={post} variant="horizontal" index={index} />
+                            <BlogCard key={post.id} post={post} variant="compact" index={index} />
                         ))}
                     </motion.div>
                 </AnimatePresence>
